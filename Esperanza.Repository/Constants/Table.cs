@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace Esperanza.Repository.Constants
 {
-    public class Table
+    public static class Table
     {
         // Master Tables
-        public static string DocumentType = "DocumentType";
-        public static string Sex = "Sex";
-        public static string Country = "Country";
-        public static string City = "City";
-        public static string Neighborhood = "Neighborhood";
-        public static string UserRole = "UserRole";
-        public static string Category = "Category";
-        public static string Kind = "Kind";
-        public static string Line = "Line";
-        public static string OrderStatus = "OrderStatus";
+        public static readonly string DocumentType = "DocumentType";
+        public static readonly string Sex = "Sex";
+        public static readonly string Country = "Country";
+        public static readonly string City = "City";
+        public static readonly string Neighborhood = "Neighborhood";
+        public static readonly string UserRole = "UserRole";
+        public static readonly string Category = "Category";
+        public static readonly string Kind = "Kind";
+        public static readonly string Line = "Line";
+        public static readonly string OrderStatus = "OrderStatus";
         // Principal Tables
-        public static string Phone = "Phone";
-        public static string Address = "Address";
-        public static string PrincipalImage = "PrincipalImage";
-        public static string Product = "Product";
-        public static string GalleryImage = "GalleryImage";
-        public static string Person = "Person";
-        public static string AppUser = "AppUser";
-        public static string ProductsOrder = "ProductsOrder";
+        public static readonly string Phone = "Phone";
+        public static readonly string Address = "Address";
+        public static readonly string PrincipalImage = "PrincipalImage";
+        public static readonly string Product = "Product";
+        public static readonly string GalleryImage = "GalleryImage";
+        public static readonly string Person = "Person";
+        public static readonly string AppUser = "AppUser";
+        public static readonly string ProductsOrder = "ProductsOrder";
         // Intermediate Tables
-        public static string OrderProduct = "OrderProduct";
-        public static string AddressPerson = "AddressPerson";
-        public static string ProductCategory = "ProductCategory";
-        public static string ProductKind = "ProductKind";
-        public static string ProductLine = "ProductLine";
+        public static readonly string OrderProduct = "OrderProduct";
+        public static readonly string AddressPerson = "AddressPerson";
+        public static readonly string ProductCategory = "ProductCategory";
+        public static readonly string ProductKind = "ProductKind";
+        public static readonly string ProductLine = "ProductLine";
     }
 }
