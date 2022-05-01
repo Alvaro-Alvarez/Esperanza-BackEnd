@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Esperanza.Core\Esperanza.Core.csproj" />
+    <ProjectReference Include="..\Esperanza.Repository\Esperanza.Repository.csproj" />
+    <ProjectReference Include="..\Esperanza.Service\Esperanza.Service.csproj" />
   </ItemGroup>
 
 </Project>

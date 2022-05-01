@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Esperanza.Repository.Constants
+﻿namespace Esperanza.Repository.Constants
 {
     public static class Table
     {
