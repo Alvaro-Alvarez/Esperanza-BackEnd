@@ -12,9 +12,28 @@ namespace Esperanza.Api.Config
         {
             #region Service
             services.AddSingleton<IMasterDataService, MasterDataService>();
+            services.AddSingleton<IPhoneService, PhoneService>();
+            services.AddSingleton<IAddressService, AddressService>();
+            services.AddSingleton<IPrincipalImageService, PrincipalImageService>();
+            services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<IGalleryImageService, GalleryImageService>();
+            services.AddSingleton<IPersonService, PersonService>();
+            services.AddSingleton<IAppUserService, AppUserService>();
+            services.AddSingleton<IProductsOrderService, ProductsOrderService>();
+            services.AddSingleton<IJwtService, JwtService>();
+            services.AddSingleton<IAuthService, AuthService>();
             #endregion
 
             #region Repositories
+            services.AddSingleton<IPhoneRepository, PhoneRepository>();
+            services.AddSingleton<IAddressRepository, AddressRepository>();
+            services.AddSingleton<IPrincipalImageRepository, PrincipalImageRepository>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
+            services.AddSingleton<IGalleryImageRepository, GalleryImageRepository>();
+            services.AddSingleton<IPersonRepository, PersonRepository>();
+            services.AddSingleton<IAppUserRepository, AppUserRepository>();
+            services.AddSingleton<IProductsOrderRepository, ProductsOrderRepository>();
+
             services.AddSingleton<IConnectionBuilder, ConnectionBuilder>();
             services.AddSingleton<IGenericRepository<DocumentType>, DocumentTypeRepository>();
             services.AddSingleton<IGenericRepository<Sex>, SexRepository>();
@@ -29,6 +48,7 @@ namespace Esperanza.Api.Config
             #endregion
 
             #region Authorization
+            services.AddSingleton<IReCaptcharService, ReCaptcharService>();
             #endregion
 
             return services;
