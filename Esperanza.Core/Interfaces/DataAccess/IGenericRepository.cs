@@ -8,7 +8,7 @@ namespace Esperanza.Core.Interfaces.DataAccess
 {
     public interface IGenericRepository<T>
     {
-        Task<IEnumerable<T>> GetAllAsync(bool withDelete = false);
+        Task<IEnumerable<T>> GetAllAsync(bool withDelete = true);
         Task<IEnumerable<T>> GetByRangeIds(string query, string adId);
         Task DeleteRowAsync(string id);
         Task DeleteIntermediate(string idAd, string query);

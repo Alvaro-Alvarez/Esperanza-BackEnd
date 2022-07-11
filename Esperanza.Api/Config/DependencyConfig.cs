@@ -15,6 +15,8 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IPhoneService, PhoneService>();
             services.AddSingleton<IAddressService, AddressService>();
             services.AddSingleton<IPrincipalImageService, PrincipalImageService>();
+            services.AddSingleton<ICrossSellingService, CrossSellingService>();
+            services.AddSingleton<IUpSellingService, UpSellingService>();
             services.AddSingleton<IProductService, ProductService>();
             services.AddSingleton<IGalleryImageService, GalleryImageService>();
             services.AddSingleton<IPersonService, PersonService>();
@@ -22,6 +24,10 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IProductsOrderService, ProductsOrderService>();
             services.AddSingleton<IJwtService, JwtService>();
             services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<IRoleService, RoleService>();
+            services.AddSingleton<IBasApiService, BasApiService>();
+            services.AddSingleton<IHttpService, HttpService>();
+            services.AddSingleton<IFileService, FileService>();
             #endregion
 
             #region Repositories
@@ -33,6 +39,8 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IPersonRepository, PersonRepository>();
             services.AddSingleton<IAppUserRepository, AppUserRepository>();
             services.AddSingleton<IProductsOrderRepository, ProductsOrderRepository>();
+            services.AddSingleton<ICrossSellingRepository, CrossSellingRepository>();
+            services.AddSingleton<IUpSellingRepository, UpSellingRepository>();
 
             services.AddSingleton<IConnectionBuilder, ConnectionBuilder>();
             services.AddSingleton<IGenericRepository<DocumentType>, DocumentTypeRepository>();
@@ -45,6 +53,10 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IGenericRepository<Kind>, KindRepository>();
             services.AddSingleton<IGenericRepository<Line>, LineRepository>();
             services.AddSingleton<IGenericRepository<OrderStatus>, OrderStatusRepository>();
+            services.AddSingleton<IGenericRepository<Vademecum>, VademecumRepository>();
+            services.AddSingleton<IGenericRepository<SubCategory>, SubCategoryRepository>();
+            services.AddSingleton<IGenericRepository<SupplierItem>, SupplierItemRepository>();
+            services.AddSingleton<IGenericRepository<List>, ListRepository>();
             #endregion
 
             #region Authorization

@@ -1,5 +1,10 @@
 using Esperanza.Api.Config;
+using Esperanza.Api.Helpers;
+using Esperanza.Api.Middleware;
+using Esperanza.BackgroundTasks;
 using Esperanza.Core.Models.Options;
+using Hangfire;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #region Authentication
-//builder.Services.AddAuthentication("AdAuthentication")
-//    .AddScheme<AuthenticationSchemeOptions, AdAuthenticationHandler>("AdAuthentication", null);
+builder.Services.AddAuthentication("ESPAuthentication")
+    .AddScheme<AuthenticationSchemeOptions, ESPAuthenticationHandler>("ESPAuthentication", null);
 #endregion
 
 #region Authorization
@@ -29,6 +34,13 @@ builder.Services.Configure<DBOptions>(builder.Configuration.GetSection("DataBase
 builder.Services.Configure<ImageOptions>(builder.Configuration.GetSection("ImagesPath"));
 builder.Services.Configure<GoogleReCaptchar>(builder.Configuration.GetSection("GoogleReCaptchar"));
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JwtBearerTokenSettings"));
+builder.Services.Configure<BASApiOptions>(builder.Configuration.GetSection("BASApi"));
+#endregion
+
+#region Config Hangfire
+builder.Services.AddHangfire(config =>
+    config.UseSqlServerStorage(builder.Configuration.GetValue<string>("DataBase:ConnectionString")));
+builder.Services.AddHangfireServer();
 #endregion
 
 #region Dependency injection
@@ -55,10 +67,26 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Hook in the global error-handling middleware
+app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
 app.UseHttpsRedirection();
+
+app.UseCors();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.UseHangfireDashboard("/api/hangfire");
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllers();
+//    endpoints.MapHangfireDashboard();
+//});
+
 app.MapControllers();
+
+SchedulerService.Start(builder.Configuration);
 
 app.Run();

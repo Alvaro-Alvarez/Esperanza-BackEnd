@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace Esperanza.Core.Models
 {
@@ -12,5 +8,8 @@ namespace Esperanza.Core.Models
         public string ImageName { get; set; }
         public string FullName { get; set; }
         public string Extension { get; set; }
+
+        [Description("ignore")]
+        public string? Base64Image { get; set; }
     }
 }

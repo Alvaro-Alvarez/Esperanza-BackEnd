@@ -6,5 +6,7 @@ namespace Esperanza.Core.Interfaces.DataAccess
     {
         Task<AppUser> GetUserAsync(Guid userGuid);
         Task<AppUser> GetUserByEmailAsync(string email);
+        Task<List<AppUser>> GetAllFull();
+        Task<bool> Exist(string email, string clientCode);
     }
 }

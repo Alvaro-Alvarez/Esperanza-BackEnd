@@ -1,5 +1,6 @@
 ﻿using Esperanza.Core.Interfaces.Business;
 using Esperanza.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Esperanza.Api.Controllers
@@ -18,16 +19,17 @@ namespace Esperanza.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> GetAll()
         {
-            return Ok(await UserService.GetAllAsync());
+            return Ok(await UserService.GetAllFull());
         }
 
-        [HttpGet]
-        [Route("GetByGuid")]
-        public async Task<ActionResult> GetByGuid()
+        [HttpGet("GetByGuid/{guid}")]
+        [Authorize]
+        public async Task<ActionResult> GetByGuid(string guid)
         {
-            return Ok(await UserService.GetByGuidAsync(User.Identity.Name));
+            return Ok(await UserService.GetByGuidAsync(guid));
         }
 
         [HttpPost]
@@ -38,6 +40,7 @@ namespace Esperanza.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> Put([FromBody] AppUser user)
         {
             await UserService.UpdateAsync(user, User.Identity.Name);
@@ -45,6 +48,7 @@ namespace Esperanza.Api.Controllers
         }
 
         [HttpDelete("{guid}")]
+        [Authorize]
         public async Task<ActionResult> Delete(string guid)
         {
             await UserService.DeleteAsync(guid, User.Identity.Name);

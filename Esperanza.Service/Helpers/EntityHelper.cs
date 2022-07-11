@@ -18,7 +18,7 @@ namespace Esperanza.Service.Helpers
         {
             entity.UpdatedBy = userGuid;
             entity.UpdatedAt = DateTime.Now;
-            if (delete) entity.Deleted = false;
+            if (delete) entity.Deleted = true;
         }
     }
 }

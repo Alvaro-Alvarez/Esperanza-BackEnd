@@ -17,6 +17,24 @@ namespace Esperanza.Repository.DataAccess
             ConnectionBuilder = connectionBuilder;
         }
 
+        public async Task<List<AppUser>> GetAllFull()
+        {
+            List<AppUser> users;
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                users = (await db.QueryAsync<AppUser, UserRole, Person, DocumentType, Sex, Phone, AppUser>(
+                    AppUser.GetAllFull, (user, role, person, documentType, sex, phone) =>
+                    {
+                        user.UserRole = role;
+                        user.Person = person;
+                        user.Person.DocumentType = documentType;
+                        user.Person.Sex = sex;
+                        user.Person.Phone = phone;
+                        return user;
+                    }, splitOn: "Guid,Guid,Guid,Guid,Guid")).ToList();
+            }
+            return users;
+        }
         public async Task<AppUser> GetUserAsync(Guid userGuid)
         {
             AppUser user;
@@ -45,6 +63,16 @@ namespace Esperanza.Repository.DataAccess
                     }, new { Email = email }, splitOn: "Guid")).FirstOrDefault();
             }
             return user;
+        }
+
+        public async Task<bool> Exist(string email, string clientCode)
+        {
+            int rows;
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                rows = (await db.QueryAsync<int>(AppUser.Exist, new { Email = email, BasClientCode = clientCode })).FirstOrDefault();
+            }
+            return rows > 0;
         }
     }
 }

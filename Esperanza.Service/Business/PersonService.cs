@@ -25,7 +25,8 @@ namespace Esperanza.Service.Business
 
         public async Task<Person> InsertAsync(Person person, Guid userGuid)
         {
-            Phone phone = await PhoneService.InsertAsync(new Phone(), userGuid);
+            //Phone phone = person.Phone != null ? person.Phone : new Phone();
+            Phone phone = await PhoneService.InsertAsync(person.Phone != null ? person.Phone : new Phone(), userGuid);
             EntityHelper.InitEntity(person, userGuid);
             person.PhoneGuid = phone.Guid.Value;
             await PersonRepository.InsertAsync(person);

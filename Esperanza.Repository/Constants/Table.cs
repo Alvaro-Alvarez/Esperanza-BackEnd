@@ -13,6 +13,10 @@
         public static readonly string Kind = "Kind";
         public static readonly string Line = "Line";
         public static readonly string OrderStatus = "OrderStatus";
+        public static readonly string List = "List";
+        public static readonly string SupplierItem = "SupplierItem";
+        public static readonly string SubCategory = "SubCategory";
+        public static readonly string Vademecum = "Vademecum";
         // Principal Tables
         public static readonly string Phone = "Phone";
         public static readonly string Address = "Address";
@@ -22,11 +26,16 @@
         public static readonly string Person = "Person";
         public static readonly string AppUser = "AppUser";
         public static readonly string ProductsOrder = "ProductsOrder";
+
+        public static readonly string UpSelling = "UpSelling";
+        public static readonly string CrossSelling = "CrossSelling";
         // Intermediate Tables
         public static readonly string OrderProduct = "OrderProduct";
         public static readonly string AddressPerson = "AddressPerson";
         public static readonly string ProductCategory = "ProductCategory";
         public static readonly string ProductKind = "ProductKind";
         public static readonly string ProductLine = "ProductLine";
+        public static readonly string ProductUpSelling = "ProductUpSelling";
+        public static readonly string ProductCrossSelling = "ProductCrossSelling";
     }
 }

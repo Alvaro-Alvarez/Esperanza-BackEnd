@@ -14,5 +14,9 @@ namespace Esperanza.Core.Interfaces.Business
         Task<List<Kind>> GetAllKindsAsync();
         Task<List<Line>> GetAllLinesAsync();
         Task<List<OrderStatus>> GetAllOrderStatuesAsync();
+        Task<List<List>> GetAllListsAsync();
+        Task<List<Vademecum>> GetVademecumAsync();
+        Task<List<SubCategory>> GetAllSubCategoriesAsync();
+        Task<List<SupplierItem>> GetAllSupplierItemsAsync();
     }
 }

@@ -37,4 +37,18 @@ namespace Esperanza.Core.Models
         public Guid ProductGuid { get; set; }
         public Guid LineGuid { get; set; }
     }
+
+    public class ProductUpSelling
+    {
+        public Guid ProductGuid { get; set; }
+        public Guid LineGuid { get; set; }
+        public int? Order { get; set; }
+    }
+
+    public class ProductCrossSelling
+    {
+        public Guid ProductGuid { get; set; }
+        public Guid LineGuid { get; set; }
+        public int? Order { get; set; }
+    }
 }

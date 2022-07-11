@@ -84,5 +84,40 @@ namespace Esperanza.Api.Controllers
         {
             return Ok(await MasterDataService.GetAllOrderStatuesAsync());
         }
+
+        [HttpGet]
+        [Route("GetAllLists")]
+        public async Task<ActionResult> GetAllLists()
+        {
+            return Ok(await MasterDataService.GetAllListsAsync());
+        }
+
+        [HttpGet]
+        [Route("GetAllVademecum")]
+        public async Task<ActionResult> GetAllVademecum()
+        {
+            return Ok(await MasterDataService.GetVademecumAsync());
+        }
+
+        [HttpGet]
+        [Route("GetAllSubCategories")]
+        public async Task<ActionResult> GetAllSubCategories()
+        {
+            return Ok(await MasterDataService.GetAllSubCategoriesAsync());
+        }
+
+        [HttpGet]
+        [Route("GetAllSupplierItems")]
+        public async Task<ActionResult> GetAllSupplierItems()
+        {
+            return Ok(await MasterDataService.GetAllSupplierItemsAsync());
+        }
+
+        [HttpGet]
+        [Route("TestApi")]
+        public async Task<ActionResult> TestApi()
+        {
+            return Ok(new List<string>() { "API", "Funcionando", "Correctamente" });
+        }
     }
 }

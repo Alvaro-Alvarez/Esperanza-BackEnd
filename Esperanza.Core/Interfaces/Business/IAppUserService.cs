@@ -9,5 +9,6 @@ namespace Esperanza.Core.Interfaces.Business
         Task InsertAsync(AppUser user, string userGuid);
         Task UpdateAsync(AppUser user, string userName);
         Task DeleteAsync(string guid, string userName);
+        Task<List<AppUser>> GetAllFull();
     }
 }

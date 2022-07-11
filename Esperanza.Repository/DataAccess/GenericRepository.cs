@@ -26,7 +26,7 @@ namespace Esperanza.Repository.DataAccess
             using (var connection = CreateConnection())
             {
                 string query = $"SELECT * FROM {TableName}";
-                query += withDelete ? " WHERE del = 0" : string.Empty;
+                query += withDelete ? " WHERE Deleted = 0" : string.Empty;
                 return await connection.QueryAsync<T>(query);
             }
         }
@@ -59,7 +59,7 @@ namespace Esperanza.Repository.DataAccess
         {
             using (var connection = CreateConnection())
             {
-                var result = await connection.QuerySingleOrDefaultAsync<T>($"SELECT * FROM {TableName} WHERE Id=@Id", new { Id = id });
+                var result = await connection.QuerySingleOrDefaultAsync<T>($"SELECT * FROM {TableName} WHERE Guid=@Id AND Deleted = 0", new { Id = id });
                 if (result == null)
                     throw new KeyNotFoundException($"{TableName} with id [{id}] could not be found.");
 

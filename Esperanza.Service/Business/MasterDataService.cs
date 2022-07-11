@@ -16,6 +16,10 @@ namespace Esperanza.Service.Business
         private readonly IGenericRepository<Kind> KindRepository;
         private readonly IGenericRepository<Line> LineRepository;
         private readonly IGenericRepository<OrderStatus> OrderStatusRepository;
+        private readonly IGenericRepository<Vademecum> VademecumRepository;
+        private readonly IGenericRepository<SubCategory> SubCategoryRepository;
+        private readonly IGenericRepository<SupplierItem> SupplierItemRepository;
+        private readonly IGenericRepository<List> ListRepository;
 
         public MasterDataService(
             IGenericRepository<DocumentType> documentTypeRepository,
@@ -27,7 +31,11 @@ namespace Esperanza.Service.Business
             IGenericRepository<Category> categoryRepository,
             IGenericRepository<Kind> kindRepository,
             IGenericRepository<Line> lineRepository,
-            IGenericRepository<OrderStatus> orderStatusRepository)
+            IGenericRepository<OrderStatus> orderStatusRepository,
+            IGenericRepository<Vademecum> vademecumRepository,
+            IGenericRepository<SubCategory> subCategoryRepository,
+            IGenericRepository<SupplierItem> supplierItemRepository,
+            IGenericRepository<List> listRepository)
         {
             DocumentTypeRepository = documentTypeRepository;
             SexRepository = sexRepository;
@@ -39,6 +47,10 @@ namespace Esperanza.Service.Business
             KindRepository = kindRepository;
             LineRepository = lineRepository;
             OrderStatusRepository = orderStatusRepository;
+            VademecumRepository = vademecumRepository;
+            SubCategoryRepository = subCategoryRepository;
+            SupplierItemRepository = supplierItemRepository;
+            ListRepository = listRepository;
         }
 
         public async Task<List<DocumentType>> GetAllTypesOfDocumentsAsync()
@@ -89,6 +101,26 @@ namespace Esperanza.Service.Business
         public async Task<List<OrderStatus>> GetAllOrderStatuesAsync()
         {
             return (await OrderStatusRepository.GetAllAsync()).ToList();
+        }
+
+        public async Task<List<List>> GetAllListsAsync()
+        {
+            return (await ListRepository.GetAllAsync()).ToList();
+        }
+
+        public async Task<List<Vademecum>> GetVademecumAsync()
+        {
+            return (await VademecumRepository.GetAllAsync()).ToList();
+        }
+
+        public async Task<List<SubCategory>> GetAllSubCategoriesAsync()
+        {
+            return (await SubCategoryRepository.GetAllAsync()).ToList();
+        }
+
+        public async Task<List<SupplierItem>> GetAllSupplierItemsAsync()
+        {
+            return (await SupplierItemRepository.GetAllAsync()).ToList();
         }
     }
 }
