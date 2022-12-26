@@ -18,13 +18,8 @@ namespace Esperanza.Api.Controllers
         [HttpPost("ProductsByXlsx")]
         public async Task<ActionResult> ProductsByXlsx(IFormFile file)
         {
+            await _fileService.ImportProducts(file);
             return Ok();
         }
-
-        //[HttpPost("import")]
-        //public async Task<IActionResult> Import(IFormFile file)
-        //{
-        //    return Ok();
-        //}
     }
 }

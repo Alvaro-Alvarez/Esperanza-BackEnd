@@ -41,6 +41,10 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IProductsOrderRepository, ProductsOrderRepository>();
             services.AddSingleton<ICrossSellingRepository, CrossSellingRepository>();
             services.AddSingleton<IUpSellingRepository, UpSellingRepository>();
+            services.AddSingleton<ICategoryRepository, CategoryRepository>();
+            services.AddSingleton<IKindRepository, KindRepository>();
+            services.AddSingleton<ILineRepository, LineRepository>();
+            services.AddSingleton<IUserProductRepository, UserProductRepository>();
 
             services.AddSingleton<IConnectionBuilder, ConnectionBuilder>();
             services.AddSingleton<IGenericRepository<DocumentType>, DocumentTypeRepository>();
@@ -49,14 +53,13 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IGenericRepository<City>, CityRepository>();
             services.AddSingleton<IGenericRepository<Neighborhood>, NeighborhoodRepository>();
             services.AddSingleton<IGenericRepository<UserRole>, UserRoleRepository>();
-            services.AddSingleton<IGenericRepository<Category>, CategoryRepository>();
-            services.AddSingleton<IGenericRepository<Kind>, KindRepository>();
-            services.AddSingleton<IGenericRepository<Line>, LineRepository>();
             services.AddSingleton<IGenericRepository<OrderStatus>, OrderStatusRepository>();
             services.AddSingleton<IGenericRepository<Vademecum>, VademecumRepository>();
             services.AddSingleton<IGenericRepository<SubCategory>, SubCategoryRepository>();
             services.AddSingleton<IGenericRepository<SupplierItem>, SupplierItemRepository>();
             services.AddSingleton<IGenericRepository<List>, ListRepository>();
+            services.AddSingleton<IGenericRepository<Laboratory>, LaboratoryRepository>();
+
             #endregion
 
             #region Authorization

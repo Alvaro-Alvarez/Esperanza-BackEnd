@@ -12,14 +12,14 @@ namespace Esperanza.Service.Business
         private readonly IGenericRepository<City> CityRepository;
         private readonly IGenericRepository<Neighborhood> NeighborhoodRepository;
         private readonly IGenericRepository<UserRole> UserRoleRepository;
-        private readonly IGenericRepository<Category> CategoryRepository;
-        private readonly IGenericRepository<Kind> KindRepository;
-        private readonly IGenericRepository<Line> LineRepository;
         private readonly IGenericRepository<OrderStatus> OrderStatusRepository;
         private readonly IGenericRepository<Vademecum> VademecumRepository;
         private readonly IGenericRepository<SubCategory> SubCategoryRepository;
         private readonly IGenericRepository<SupplierItem> SupplierItemRepository;
         private readonly IGenericRepository<List> ListRepository;
+        private readonly ICategoryRepository CategoryRepository;
+        private readonly IKindRepository KindRepository;
+        private readonly ILineRepository LineRepository;
 
         public MasterDataService(
             IGenericRepository<DocumentType> documentTypeRepository,
@@ -28,9 +28,9 @@ namespace Esperanza.Service.Business
             IGenericRepository<City> cityRepository,
             IGenericRepository<Neighborhood> neighborhoodRepository,
             IGenericRepository<UserRole> userRoleRepository,
-            IGenericRepository<Category> categoryRepository,
-            IGenericRepository<Kind> kindRepository,
-            IGenericRepository<Line> lineRepository,
+            ICategoryRepository categoryRepository,
+            IKindRepository kindRepository,
+            ILineRepository lineRepository,
             IGenericRepository<OrderStatus> orderStatusRepository,
             IGenericRepository<Vademecum> vademecumRepository,
             IGenericRepository<SubCategory> subCategoryRepository,

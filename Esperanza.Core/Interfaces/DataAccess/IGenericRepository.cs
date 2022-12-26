@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Esperanza.Core.Interfaces.DataAccess
+﻿namespace Esperanza.Core.Interfaces.DataAccess
 {
     public interface IGenericRepository<T>
     {
@@ -17,5 +11,7 @@ namespace Esperanza.Core.Interfaces.DataAccess
         Task UpdateAsync(T t);
         Task InsertAsync(T t);
         Task<int> GetLastId();
+        Task<T> GetByName(string name);
+        Task<IEnumerable<T>> GetRangeByName(List<string> names);
     }
 }

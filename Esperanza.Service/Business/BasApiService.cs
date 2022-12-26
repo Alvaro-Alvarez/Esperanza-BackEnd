@@ -24,5 +24,30 @@ namespace Esperanza.Service.Business
             var resp = await _httpService.Get<ClientResponse>(_basApiSettings.ApiUrl, controller);
             return resp != null;
         }
+
+        public async Task<ClientResponse> GetClientBas(string clientId)
+        {
+            string controller = _basApiSettings.ClientController.Replace(_basApiSettings.ParamExpClientId, clientId);
+            var resp = await _httpService.Get<ClientResponse>(_basApiSettings.ApiUrl, controller);
+            return resp;
+        }
+
+        public async Task<ProductResponse> GetProductCCMBas(string clientCode, string productCode)
+        {
+            string controller = _basApiSettings.ProductCCMController
+                .Replace(_basApiSettings.ParamExpClientId, clientCode)
+                .Replace(_basApiSettings.ParamExpProductId, productCode);
+            var resp = await _httpService.Get<ProductResponse>(_basApiSettings.ApiUrl, controller);
+            return resp;
+        }
+
+        public async Task<ProductResponse> GetProductCCBBas(string clientCode, string productCode)
+        {
+            string controller = _basApiSettings.ProductCCBController
+                .Replace(_basApiSettings.ParamExpClientId, clientCode)
+                .Replace(_basApiSettings.ParamExpProductId, productCode);
+            var resp = await _httpService.Get<ProductResponse>(_basApiSettings.ApiUrl, controller);
+            return resp;
+        }
     }
 }

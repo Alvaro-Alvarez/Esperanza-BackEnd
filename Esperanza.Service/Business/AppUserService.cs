@@ -46,9 +46,12 @@ namespace Esperanza.Service.Business
             //TODO: Encryptar contraseña
             EntityHelper.InitEntity(user, creatorGuid);
             user.RoleGuid = user.RoleGuid != null ? user.RoleGuid.Value : new Guid(RoleConstant.Client);
-            if (user.RoleGuid.Value.ToString() == RoleConstant.Client)
+            if (user.RoleGuid.Value.ToString().ToLower() == RoleConstant.Client.ToLower())
             {
-                if (!await BasApiService.CustomerExists(user.BasClientCode)) throw new Exception("El código de cliente no existe");
+                var userBas = await BasApiService.GetClientBas(user.BasClientCode);
+                if (userBas == null) throw new Exception("El código de cliente no existe");
+                user.CanCCB = userBas.CondicionVentaBalanceado.Equals("CCB");
+                user.CanCCM = userBas.CondicionVentaMedicamentos.Equals("CCM");
             }
             Person person = await PersonService.InsertAsync(user.Person, user.Guid.Value);
             if (string.IsNullOrEmpty(userGuid))

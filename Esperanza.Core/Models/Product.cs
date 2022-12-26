@@ -7,6 +7,9 @@ namespace Esperanza.Core.Models
         public Product()
         {
             GalleryImages = new List<GalleryImage>();
+            Categories = new List<Category>();
+            Kinds = new List<Kind>();
+            Lines = new List<Line>();
         }
 
         public Guid? PrincipalImageGuid { get; set; }
@@ -17,13 +20,44 @@ namespace Esperanza.Core.Models
         public decimal? UnitPrice { get; set; }
         public string? Brand { get; set; }
         public string? BasProductCode { get; set; }
+        public string? MainComponent { get; set; }
+        public string? Drug { get; set; }
+        public string? Action { get; set; }
+        public string? Presentation { get; set; }
+        public string? RoutesOfAdministration { get; set; }
+        public string? MilkWithdrawal { get; set; }
+        public string? MeatRecall { get; set; }
+        public bool? Discontinued { get; set; }
+        public bool? MissingInformation { get; set; }
+        public bool? MissingFoto { get; set; }
+        public string? OBS { get; set; }
         public Guid? CrossSellingGuid { get; set; }
         public Guid? UpSellingGuid { get; set; }
         public Guid? VademecumGuid { get; set; }
         public Guid? SubCategoryGuid { get; set; }
         public Guid? ListGuid { get; set; }
         public Guid? SupplierItemGuid { get; set; }
+        public Guid? LaboratoryGuid { get; set; }
 
+
+        [Description("ignore")]
+        public List<Guid>? CategoryGuids { get; set; }
+
+        [Description("ignore")]
+        public List<Guid>? KindGuids { get; set; }
+
+        [Description("ignore")]
+        public List<Guid>? LineGuids { get; set; }
+
+
+        [Description("ignore")]
+        public List<Category>? Categories { get; set; }
+
+        [Description("ignore")]
+        public List<Kind>? Kinds { get; set; }
+
+        [Description("ignore")]
+        public List<Line>? Lines { get; set; }
 
         [Description("ignore")]
         public List<GalleryImage>? GalleryImages { get; set; }
@@ -51,12 +85,31 @@ namespace Esperanza.Core.Models
         public SupplierItem? SupplierItem { get; set; }
 
 
+        //[Description("ignore")]
+        //public decimal? TotalPrice
+        //{
+        //    get
+        //    {
+        //        return (UnitPrice.Value * Stock.Value);
+        //    }
+        //}
+        //[Description("ignore")]
+        //public static string GetAllLight
+        //{
+        //    get
+        //    {
+        //        return @"SELECT * FROM Product WHERE Deleted = 0";
+        //    }
+        //}
+
         [Description("ignore")]
-        public decimal? TotalPrice
+        public static string GetAllLight
         {
             get
             {
-                return (UnitPrice.Value * Stock.Value);
+                return @"SELECT * FROM Product p
+                        LEFT JOIN PrincipalImage pimg ON p.PrincipalImageGuid = pimg.Guid
+                        WHERE p.Deleted = 0";
             }
         }
 
@@ -87,6 +140,35 @@ namespace Esperanza.Core.Models
                         LEFT JOIN List l ON p.ListGuid = l.Guid
                         LEFT JOIN SupplierItem si ON p.SupplierItemGuid = si.Guid
                         WHERE p.Deleted = 0 AND p.Guid = @Guid";
+            }
+        }
+
+        [Description("ignore")]
+        public static string Pagination
+        {
+            get
+            {
+                // TODO: VER COMO MEJORAR
+                return "OFFSET @Start ROWS FETCH NEXT 8 ROWS ONLY";
+                //return "OFFSET @Start ROWS FETCH NEXT @End ROWS ONLY";
+            }
+        }
+
+        [Description("ignore")]
+        public static string GetAllWithPagination
+        {
+            get
+            {
+                return $"{GetAllFull} ORDER BY p.Name {Pagination}";
+            }
+        }
+
+        [Description("ignore")]
+        public static string GetCount
+        {
+            get
+            {
+                return @"SELECT COUNT(*) FROM Product WHERE Deleted = 0;";
             }
         }
     }

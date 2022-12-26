@@ -1,5 +1,6 @@
 ﻿using Esperanza.Core.Interfaces.Business;
 using Esperanza.Core.Models;
+using Esperanza.Core.Models.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,12 @@ namespace Esperanza.Api.Controllers
         public async Task<ActionResult> GetByGuid(string guid)
         {
             return Ok(await _productService.GetById(guid));
+        }
+
+        [HttpPost("GetAllWithPagination")]
+        public async Task<ActionResult> GetByGuid([FromBody] Pagination pagination)
+        {
+            return Ok(await _productService.GetAllPaginated(pagination, User.Identity.Name));
         }
 
         [HttpPost]

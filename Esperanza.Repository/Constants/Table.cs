@@ -17,6 +17,7 @@
         public static readonly string SupplierItem = "SupplierItem";
         public static readonly string SubCategory = "SubCategory";
         public static readonly string Vademecum = "Vademecum";
+        public static readonly string Laboratory = "Laboratory";
         // Principal Tables
         public static readonly string Phone = "Phone";
         public static readonly string Address = "Address";
@@ -26,6 +27,7 @@
         public static readonly string Person = "Person";
         public static readonly string AppUser = "AppUser";
         public static readonly string ProductsOrder = "ProductsOrder";
+        public static readonly string UserProduct = "UserProduct";
 
         public static readonly string UpSelling = "UpSelling";
         public static readonly string CrossSelling = "CrossSelling";

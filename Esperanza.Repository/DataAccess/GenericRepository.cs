@@ -39,6 +39,24 @@ namespace Esperanza.Repository.DataAccess
             }
         }
 
+        public virtual async Task<T> GetByName(string name)
+        {
+            using (var connection = CreateConnection())
+            {
+                var result = await connection.QuerySingleOrDefaultAsync<T>($"SELECT * FROM {TableName} WHERE Name = '{name}' AND Deleted = 0");
+                return result;
+            }
+        }
+
+        public virtual async Task<IEnumerable<T>> GetRangeByName(List<string> names)
+        {
+            using (var connection = CreateConnection())
+            {
+                string query = $"SELECT * FROM {TableName} WHERE Name IN @Names AND Deleted = 0";
+                return await connection.QueryAsync<T>(query, new { Names = names });
+            }
+        }
+
         public virtual async Task DeleteRowAsync(string id)
         {
             using (var connection = CreateConnection())

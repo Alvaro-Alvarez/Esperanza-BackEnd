@@ -1,4 +1,5 @@
-﻿using Esperanza.Service.Business;
+﻿using Esperanza.Core.Models.Options;
+using Esperanza.Service.Business;
 using Hangfire;
 using Microsoft.Extensions.Configuration;
 
@@ -8,9 +9,7 @@ namespace Esperanza.BackgroundTasks
     {
         static public void Start(IConfiguration config)
         {
-            //RecurringJob.AddOrUpdate<ProductService>("GetAllFull", (p) => p.GetAllFull(), config.GetValue<string>("Cron:ReloadProducts"));
-            RecurringJob.AddOrUpdate<ProductService>("TestHangfire", (p) => p.TestHangfire(), Cron.Minutely);
-            //RecurringJob.AddOrUpdate("myrecurringjob", () => Console.WriteLine("Recurring!"), Cron.Minutely);
+            //RecurringJob.AddOrUpdate<UserProductService>("UpdatePrices", (p) => p.UpdatePrices(), config.GetValue<string>("Cron:ReloadProducts"));
         }
     }
 }

@@ -29,6 +29,11 @@ VALUES (NEWID(), 0, GETDATE(), GETDATE(), NEWID(), NEWID(), 'ADMIN');
 INSERT INTO UserRole (Guid, Deleted, CreatedAt, UpdatedAt, CreatedBy, UpdatedBy, Name)
 VALUES (NEWID(), 0, GETDATE(), GETDATE(), NEWID(), NEWID(), 'CLIENTE');
 
+INSERT INTO OrderStatus (Guid, Deleted, CreatedAt, UpdatedAt, CreatedBy, UpdatedBy, Name)
+VALUES (NEWID(), 0, GETDATE(), GETDATE(), NEWID(), NEWID(), 'PEDIDO');
+INSERT INTO OrderStatus (Guid, Deleted, CreatedAt, UpdatedAt, CreatedBy, UpdatedBy, Name)
+VALUES (NEWID(), 0, GETDATE(), GETDATE(), NEWID(), NEWID(), 'VENTA');
+
 INSERT INTO Category (Guid, Deleted, CreatedAt, UpdatedAt, CreatedBy, UpdatedBy, Name)
 VALUES (NEWID(), 0, GETDATE(), GETDATE(), NEWID(), NEWID(), 'CAT1');
 INSERT INTO Category (Guid, Deleted, CreatedAt, UpdatedAt, CreatedBy, UpdatedBy, Name)
@@ -43,11 +48,6 @@ INSERT INTO Line (Guid, Deleted, CreatedAt, UpdatedAt, CreatedBy, UpdatedBy, Nam
 VALUES (NEWID(), 0, GETDATE(), GETDATE(), NEWID(), NEWID(), 'PERRIN');
 INSERT INTO Line (Guid, Deleted, CreatedAt, UpdatedAt, CreatedBy, UpdatedBy, Name)
 VALUES (NEWID(), 0, GETDATE(), GETDATE(), NEWID(), NEWID(), 'GATIN');
-
-INSERT INTO OrderStatus (Guid, Deleted, CreatedAt, UpdatedAt, CreatedBy, UpdatedBy, Name)
-VALUES (NEWID(), 0, GETDATE(), GETDATE(), NEWID(), NEWID(), 'PEDIDO');
-INSERT INTO OrderStatus (Guid, Deleted, CreatedAt, UpdatedAt, CreatedBy, UpdatedBy, Name)
-VALUES (NEWID(), 0, GETDATE(), GETDATE(), NEWID(), NEWID(), 'VENTA');
 
 
 

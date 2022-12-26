@@ -10,6 +10,8 @@ namespace Esperanza.Core.Models
         public string? Pass { get; set; }
         public string? BasClientCode { get; set; }
         public bool? Verified { get; set; }
+        public bool? CanCCM { get; set; }
+        public bool? CanCCB { get; set; }
 
         [Description("ignore")]
         public Person? Person { get; set; }
