@@ -2,7 +2,8 @@
 {
     public static class RoleConstant
     {
-        public static readonly string Client = "8848F771-E367-4CBC-ADE4-E26D4DDCB7A6";
-        public static readonly string Administrator = "232F2944-A132-43E5-A805-19284EF669A7";
+        //TODO: Crear con los datos maestros con los mismos id, sino va a generar conflictos
+        public static readonly string Client = "B9AC84E5-8A88-4AB0-901C-916740140EED";
+        public static readonly string Administrator = "7F7EC2B9-9A0A-4528-A73B-7129B63CE4F5";
     }
 }

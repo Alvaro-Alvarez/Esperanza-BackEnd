@@ -1,6 +1,7 @@
 ﻿using Esperanza.Core.Interfaces.Business;
 using Esperanza.Core.Interfaces.DataAccess;
 using Esperanza.Core.Models;
+using Esperanza.Core.Models.Sync;
 using Esperanza.Repository.DataAccess;
 using Esperanza.Service.Business;
 
@@ -28,6 +29,7 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IBasApiService, BasApiService>();
             services.AddSingleton<IHttpService, HttpService>();
             services.AddSingleton<IFileService, FileService>();
+            services.AddSingleton<IItemUpdateService, ItemUpdateService>();
             #endregion
 
             #region Repositories
@@ -59,6 +61,11 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IGenericRepository<SupplierItem>, SupplierItemRepository>();
             services.AddSingleton<IGenericRepository<List>, ListRepository>();
             services.AddSingleton<IGenericRepository<Laboratory>, LaboratoryRepository>();
+            services.AddSingleton<IGenericRepository<TransportSync>, TransportSyncRepository>();
+            services.AddSingleton<IGenericRepository<PriceListSync>, PriceListSyncRepository>();
+            services.AddSingleton<IGenericRepository<CustomerConditionSync>, CustomerConditionSyncRepository>();
+            services.AddSingleton<IGenericRepository<CustomerSync>, CustomerSyncRepository>();
+            services.AddSingleton<IGenericRepository<PropductSync>, PropductSyncRepository>();
 
             #endregion
 

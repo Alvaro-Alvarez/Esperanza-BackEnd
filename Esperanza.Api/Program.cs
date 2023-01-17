@@ -1,7 +1,9 @@
+using AutoMapper;
 using Esperanza.Api.Config;
 using Esperanza.Api.Helpers;
 using Esperanza.Api.Middleware;
 using Esperanza.BackgroundTasks;
+using Esperanza.Core.MappingProfiles;
 using Esperanza.Core.Models.Options;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication;
@@ -14,6 +16,18 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//builder.Services.AddAutoMapperDependency();
+
+var mapperConfig = new MapperConfiguration(m =>
+{
+    m.AddProfile(new PropductSyncMappingProfile());
+    m.AddProfile(new CustomerConditionSyncMappingProfile());
+    m.AddProfile(new CustomerSyncMappingProfile());
+    m.AddProfile(new PriceListSyncMappingProfile());
+    //m.AddProfile(new TransportSyncMappingProfile());
+});
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 #region Authentication
 builder.Services.AddAuthentication("ESPAuthentication")
@@ -35,6 +49,7 @@ builder.Services.Configure<ImageOptions>(builder.Configuration.GetSection("Image
 builder.Services.Configure<GoogleReCaptchar>(builder.Configuration.GetSection("GoogleReCaptchar"));
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JwtBearerTokenSettings"));
 builder.Services.Configure<BASApiOptions>(builder.Configuration.GetSection("BASApi"));
+builder.Services.Configure<ServicesOption>(builder.Configuration.GetSection("Services"));
 #endregion
 
 #region Config Hangfire

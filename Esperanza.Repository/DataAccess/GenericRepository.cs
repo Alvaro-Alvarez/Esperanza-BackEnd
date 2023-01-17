@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text;
+using System.Linq;
 
 namespace Esperanza.Repository.DataAccess
 {
@@ -65,6 +66,22 @@ namespace Esperanza.Repository.DataAccess
             }
         }
 
+        //public virtual async Task DeleteRowsRange(List<string> ids)
+        //{
+        //    using (var connection = CreateConnection())
+        //    {
+        //        await connection.ExecuteAsync($"UPDATE {TableName} SET DEL = 1 WHERE Id IN @Ids", new { Ids = ids });
+        //    }
+        //}
+
+        public virtual async Task DeleteRowsRange(List<string> codes, string column)
+        {
+            using (var connection = CreateConnection())
+            {
+                await connection.ExecuteAsync($"UPDATE {TableName} SET Deleted = 1 WHERE {column} IN @Codes", new { Codes = codes });
+            }
+        }
+
         public virtual async Task DeleteIntermediate(string idAd, string query)
         {
             using (var connection = CreateConnection())
@@ -84,6 +101,37 @@ namespace Esperanza.Repository.DataAccess
                 return result;
             }
         }
+
+        #region Sync
+        public virtual async Task<IEnumerable<string>> GetProductCodes()
+        {
+            using (var connection = CreateConnection())
+            {
+               return await connection.QueryAsync<string>($"SELECT DISTINCT CODIGO FROM {TableName} WHERE Deleted = 0");
+            }
+        }
+        public virtual async Task<IEnumerable<string>> GetCustomerCodes()
+        {
+            using (var connection = CreateConnection())
+            {
+                return await connection.QueryAsync<string>($"SELECT DISTINCT CODCTACTE FROM {TableName} WHERE Deleted = 0");
+            }
+        }
+        public virtual async Task<IEnumerable<string>> GetPriceListCodes()
+        {
+            using (var connection = CreateConnection())
+            {
+                return await connection.QueryAsync<string>($"SELECT DISTINCT CODITM FROM {TableName} WHERE Deleted = 0");
+            }
+        }
+        public virtual async Task<IEnumerable<string>> GetTransportCodes()
+        {
+            using (var connection = CreateConnection())
+            {
+                return await connection.QueryAsync<string>($"SELECT DISTINCT coditm FROM {TableName} WHERE Deleted = 0");
+            }
+        }
+        #endregion
 
         public virtual async Task<int> SaveRangeAsync(IEnumerable<T> list)
         {

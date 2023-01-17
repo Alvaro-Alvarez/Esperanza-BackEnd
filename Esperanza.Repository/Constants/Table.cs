@@ -18,6 +18,12 @@
         public static readonly string SubCategory = "SubCategory";
         public static readonly string Vademecum = "Vademecum";
         public static readonly string Laboratory = "Laboratory";
+
+        public static readonly string PropductSync = "PropductSync";
+        public static readonly string CustomerSync = "CustomerSync";
+        public static readonly string CustomerConditionSync = "CustomerConditionSync";
+        public static readonly string PriceListSync = "PriceListSync";
+        public static readonly string TransportSync = "TransportSync";
         // Principal Tables
         public static readonly string Phone = "Phone";
         public static readonly string Address = "Address";

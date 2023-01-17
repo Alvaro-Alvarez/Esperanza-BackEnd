@@ -13,5 +13,11 @@
         Task<int> GetLastId();
         Task<T> GetByName(string name);
         Task<IEnumerable<T>> GetRangeByName(List<string> names);
+
+        Task DeleteRowsRange(List<string> codes, string column);
+        Task<IEnumerable<string>> GetProductCodes();
+        Task<IEnumerable<string>> GetCustomerCodes();
+        Task<IEnumerable<string>> GetPriceListCodes();
+        Task<IEnumerable<string>> GetTransportCodes();
     }
 }
