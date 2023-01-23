@@ -74,25 +74,30 @@ namespace Esperanza.Service.Business
             return await ProductRepository.GetAllLight();
         }
 
-        public async Task<ProductsResponse> GetAllPaginated(Pagination pagination, string userGuid)
+        public async Task<ProductsResponse> GetAllPaginated(Pagination pagination, string userGuid, bool logged)
         {
-            var user = await UserRepository.GetAsync(userGuid);
-            var products = await ProductRepository.GetAllPaginated(pagination);
-            await InsertPrices(products, user);
+            var products = new List<ProductsSyncResponseDTO>();
+            var user = new AppUser();
+            if (logged) user = await UserRepository.GetAsync(userGuid);
+            if (logged) products = await ProductRepository.GetAllPaginated(pagination, user.BasClientCode);
+            else products = await ProductRepository.GetAllNoLoggedPaginated(pagination);
+            //await InsertPrices(products, user);
             return new ProductsResponse()
             {
                 Products = products,
-                Rows = await ProductRepository.GetCount()
+                Rows = logged ? await ProductRepository.GetCount(user.BasClientCode) : await ProductRepository.GetNoLoggedCount()
             };
         }
 
-        public async Task<Product> GetById(string guid)
+        public async Task<ProductsSyncResponseDTO> GetById(string cod, bool logged)
         {
-            var product = await ProductRepository.GetById(guid);
-            product.Kinds = await KindRepository.GetAllByProductId(guid);
-            product.Categories = await CategoryRepository.GetAllByProductId(guid);
-            product.Lines = await LineRepository.GetAllByProductId(guid);
-            return await ProductRepository.GetById(guid);
+            var product = new ProductsSyncResponseDTO();
+            if (logged) product = await ProductRepository.GetById(cod);
+            else product = await ProductRepository.GetByIdNologged(cod);
+            //product.Kinds = await KindRepository.GetAllByProductId(guid);
+            //product.Categories = await CategoryRepository.GetAllByProductId(guid);
+            //product.Lines = await LineRepository.GetAllByProductId(guid);
+            return product;
         }
 
         public async Task<Product>  InsertProduct(Product product, string userGuid)
@@ -122,8 +127,8 @@ namespace Esperanza.Service.Business
 
         public async Task DeleteProduct(string guid, string userGuid)
         {
-            var product = await GetById(guid);
-            product = InitDeleteProduct(product, userGuid);
+            //var product = await GetById(guid);
+            //product = InitDeleteProduct(product, userGuid);
         }
 
         //TODO: Completar

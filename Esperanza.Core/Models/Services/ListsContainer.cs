@@ -22,5 +22,6 @@
         public string PRECIO_M { get; set; }
         public string PRECIO_N { get; set; }
         public string PRECIO_O { get; set; }
+        public string PRECIO_NL { get; set; }
     }
 }

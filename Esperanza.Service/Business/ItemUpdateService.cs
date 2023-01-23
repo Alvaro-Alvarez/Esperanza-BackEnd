@@ -42,7 +42,7 @@ namespace Esperanza.Service.Business
 
         public async Task UpdateProducts()
         {
-            //TODO: Ver cuando y como actualizar
+            //TODO: Tomar el campo "ACTUALIZADO" para ver si actualizar el item o no, tambien llamar el endpoint final para decirle que ya fueron actualizados.
             var items = await GetData<List<Item>>(_servicesOption.ItemsController);
             var insertedCodes = (await _propductSyncRepository.GetProductCodes()).ToList();
             var recordToInsert = GetRecordToInsert(items, insertedCodes, SyncCodeConstant.Product);
@@ -80,7 +80,14 @@ namespace Esperanza.Service.Business
         {
             //TODO: Ver cuando y como eliminar
             List<Condition> recordToInsert = new List<Condition>();
-            var items = await GetData<List<Condition>>(_servicesOption.ConditionsController);
+            var itemsCcb = await GetData<List<Condition>>(_servicesOption.ConditionsControllerCcb);
+            var itemsCcm = await GetData<List<Condition>>(_servicesOption.ConditionsControllerCcm);
+            var itemsRest = await GetData<List<Condition>>(_servicesOption.ConditionsControllerResto);
+            var items = new List<Condition>();
+            items.AddRange(itemsCcb);
+            items.AddRange(itemsCcm);
+            items.AddRange(itemsRest);
+
             var customerConditions = await _customerConditionSyncRepository.GetAllAsync();
 
             foreach (var item in items)
@@ -119,25 +126,6 @@ namespace Esperanza.Service.Business
             await _priceListSyncRepository.DeleteRowsRange(recordToRemove, SyncCodeConstant.Price);
         }
 
-        //public async Task UpdateTranspors()
-        //{
-        //    //TODO: Ver cuando y como actualizar
-        //    var data = await GetData<TransportsContainer>(_servicesOption.Transports);
-        //    var items = GetList(data.recordset, data.recordsets.SelectMany(x => x).ToList());
-        //    var insertedCodes = (await _transportSyncRepository.GetTransportCodes()).ToList();
-        //    var recordToInsert = GetRecordToInsert<Transports>(items, insertedCodes, SyncCodeConstant.Transport);
-        //    var recordToRemove = insertedCodes.Except(items.Select(i => i.coditm)).ToList();
-        //    var itemsToSave = _mapper.Map<List<TransportSync>>(recordToInsert);
-        //    itemsToSave.ForEach(item =>
-        //    {
-        //        item.Guid = Guid.NewGuid();
-        //        item.CreatedAt = DateTime.Now;
-        //        item.CreatedBy = Guid.Empty;
-        //    });
-        //    await _transportSyncRepository.SaveRangeAsync(itemsToSave);
-        //    await _transportSyncRepository.DeleteRowsRange(recordToRemove, SyncCodeConstant.Transport);
-        //}
-
         #region Private Methods
         private List<T> GetRecordToInsert<T>(List<T> allRecords, List<string> insertedCodes, string prop) where T : new()
         {
@@ -164,15 +152,6 @@ namespace Esperanza.Service.Business
             if (res.Data == null) return JsonConvert.DeserializeObject<T>(res.Content);
             return res.Data;
         }
-        //private string GetUrlWithoutController(string url)
-        //{
-        //    var arr = url.Split("/").Where((e, i) => i != url.Split("/").Length - 1).ToArray();
-        //    return string.Join("/", arr);
-        //}
-        //private string GetController(string url)
-        //{
-        //    return url.Split("/").Last();
-        //}
         #endregion
     }
 }

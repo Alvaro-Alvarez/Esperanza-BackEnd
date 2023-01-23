@@ -24,16 +24,16 @@ namespace Esperanza.Api.Controllers
             return Ok(await _productService.GetAllFull());
         }
 
-        [HttpGet("GetByGuid/{guid}")]
-        public async Task<ActionResult> GetByGuid(string guid)
+        [HttpGet("GetByCode/{cod}")]
+        public async Task<ActionResult> GetByCode(string cod)
         {
-            return Ok(await _productService.GetById(guid));
+            return Ok(await _productService.GetById(cod, User.Identity.Name != null));
         }
 
         [HttpPost("GetAllWithPagination")]
         public async Task<ActionResult> GetByGuid([FromBody] Pagination pagination)
         {
-            return Ok(await _productService.GetAllPaginated(pagination, User.Identity.Name));
+            return Ok(await _productService.GetAllPaginated(pagination, User.Identity.Name, User.Identity.Name != null));
         }
 
         [HttpPost]
