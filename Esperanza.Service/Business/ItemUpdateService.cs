@@ -82,11 +82,11 @@ namespace Esperanza.Service.Business
             List<Condition> recordToInsert = new List<Condition>();
             var itemsCcb = await GetData<List<Condition>>(_servicesOption.ConditionsControllerCcb);
             var itemsCcm = await GetData<List<Condition>>(_servicesOption.ConditionsControllerCcm);
-            var itemsRest = await GetData<List<Condition>>(_servicesOption.ConditionsControllerResto);
+            //var itemsRest = await GetData<List<Condition>>(_servicesOption.ConditionsControllerResto);
             var items = new List<Condition>();
             items.AddRange(itemsCcb);
             items.AddRange(itemsCcm);
-            items.AddRange(itemsRest);
+            //items.AddRange(itemsRest);
 
             var customerConditions = await _customerConditionSyncRepository.GetAllAsync();
 

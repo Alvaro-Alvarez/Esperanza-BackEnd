@@ -6,13 +6,13 @@ namespace Esperanza.Core.Interfaces.DataAccess
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
-        Task<List<Product>> GetAllFull();
-        Task<ProductsSyncResponseDTO> GetById(string cod);
+        Task<ProductsSyncResponseDTO> GetById(string cod, string clientCode);
         Task<ProductsSyncResponseDTO> GetByIdNologged(string cod);
-        Task<List<ProductsSyncResponseDTO>> GetAllPaginated(Pagination pagination, string clientCode);
-        Task<List<Product>> GetAllLight();
-        Task<int> GetCount(string clientCode);
-        Task<List<ProductsSyncResponseDTO>> GetAllNoLoggedPaginated(Pagination pagination);
-        Task<int> GetNoLoggedCount();
+        Task<List<ProductsSyncResponseDTO>> GetAllPaginated(Filter filter, string clientCode);
+        Task<int> GetCount(string clientCode, Filter filter);
+        Task<List<ProductsSyncResponseDTO>> GetAllNoLoggedPaginated(Filter filter);
+        Task<int> GetNoLoggedCount(Filter filter);
+        Task<ValuesToFilter> GetValuesToFilter(Filter filter, string clientCode);
+        Task<ValuesToFilter> GetValuesToFilterNoLogged(Filter filter);
     }
 }

@@ -5,6 +5,7 @@ using Esperanza.Api.Middleware;
 using Esperanza.BackgroundTasks;
 using Esperanza.Core.MappingProfiles;
 using Esperanza.Core.Models.Options;
+using Esperanza.Core.Options;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication;
 
@@ -50,6 +51,7 @@ builder.Services.Configure<GoogleReCaptchar>(builder.Configuration.GetSection("G
 builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JwtBearerTokenSettings"));
 builder.Services.Configure<BASApiOptions>(builder.Configuration.GetSection("BASApi"));
 builder.Services.Configure<ServicesOption>(builder.Configuration.GetSection("Services"));
+builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("EmailOptions"));
 #endregion
 
 #region Config Hangfire

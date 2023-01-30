@@ -9,5 +9,6 @@
         public string? ConditionsControllerCcm { get; set; }
         public string? ConditionsControllerResto { get; set; }
         public string? ListDinController { get; set; }
+        public string? SemaphoreController { get; set; }
     }
 }

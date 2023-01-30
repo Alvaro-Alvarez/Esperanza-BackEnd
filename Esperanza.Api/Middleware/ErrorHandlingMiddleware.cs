@@ -38,7 +38,7 @@ namespace Esperanza.Api.Middleware
             //else if (exceptionType == typeof(AuthenticationException)) status = HttpStatusCode.Forbidden;
             //else status = HttpStatusCode.InternalServerError;
             status = HttpStatusCode.InternalServerError;
-            if (env.IsEnvironment("Development"))
+            //if (env.IsEnvironment("Development"))
                 stackTrace = exception.StackTrace;
 
             message = exception.Message;

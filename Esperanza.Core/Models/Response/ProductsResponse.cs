@@ -1,9 +1,44 @@
-﻿namespace Esperanza.Core.Models.Response
+﻿using System.ComponentModel;
+
+namespace Esperanza.Core.Models.Response
 {
     public class ProductsResponse
     {
         public List<ProductsSyncResponseDTO> Products { get; set; }
+        public ValuesToFilter ValuesToFilter { get; set; }
         public int Rows { get; set; }
+    }
+
+    public class ValuesToFilter
+    {
+        public CategoryFilter Marca { get; set; }
+        public CategoryFilter Proveedor { get; set; }
+        public CategoryFilter Subrubro { get; set; }
+        public CategoryFilter Vademecum { get; set; }
+        public CategoryFilter Tipo { get; set; }
+        public CategoryFilter Laboratorio { get; set; }
+        public CategoryFilter Categoria { get; set; }
+        public CategoryFilter Droga { get; set; }
+        //public CategoryFilter Accion { get; set; }
+        public CategoryFilter Especie { get; set; }
+        public CategoryFilter Via_Administracion { get; set; }
+    }
+
+    public class CategoryFilter
+    {
+        public CategoryFilter()
+        {
+            ItemsFilter = new List<ItemFilter>();
+        }
+
+        public List<ItemFilter> ItemsFilter { get; set; }
+        public bool CanFilter { get; set; }
+    }
+
+    public class ItemFilter
+    {
+        public string Value { get; set; }
+        public int Quantity { get; set; }
     }
 
     public class ProductsSyncDTO
@@ -87,5 +122,8 @@
         public string PRECIO { get; set; }
         public bool LOGGED { get; set; }
         public string CONDICION { get; set; }
+
+        [Description("ignore")]
+        public string? Semaphore { get; set; }
     }
 }

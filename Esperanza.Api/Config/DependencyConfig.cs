@@ -30,6 +30,8 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IHttpService, HttpService>();
             services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IItemUpdateService, ItemUpdateService>();
+            services.AddSingleton<IEmailService, EmailService>();
+            services.AddSingleton<IOrderService, OrderService>();
             #endregion
 
             #region Repositories
@@ -47,6 +49,8 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IKindRepository, KindRepository>();
             services.AddSingleton<ILineRepository, LineRepository>();
             services.AddSingleton<IUserProductRepository, UserProductRepository>();
+            services.AddSingleton<IEmailTemplateRepository, EmailTemplateRepository>();
+            services.AddSingleton<IEmailKeysRepository, EmailKeysRepository>();
 
             services.AddSingleton<IConnectionBuilder, ConnectionBuilder>();
             services.AddSingleton<IGenericRepository<DocumentType>, DocumentTypeRepository>();

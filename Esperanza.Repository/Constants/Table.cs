@@ -45,5 +45,9 @@
         public static readonly string ProductLine = "ProductLine";
         public static readonly string ProductUpSelling = "ProductUpSelling";
         public static readonly string ProductCrossSelling = "ProductCrossSelling";
+        public static readonly string EmailType = "EmailType";
+        public static readonly string Errors = "Errors";
+        public static readonly string EmailTemplate = "EmailTemplate";
+        public static readonly string EmailKeys = "EmailKeys";
     }
 }

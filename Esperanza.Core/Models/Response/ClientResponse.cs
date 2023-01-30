@@ -10,16 +10,16 @@
         public string? DescripcionCondicionVentaMedicamentos { get; set; }
         public string? CondicionVentaBalanceado { get; set; }
         public string? DescripcionCondicionVentaBalanceado { get; set; }
-        public double DeudaPorVencer { get; set; }
-        public double DeudaVencida { get; set; }
+        public double? DeudaPorVencer { get; set; }
+        public double? DeudaVencida { get; set; }
         public string? Bloqueado { get; set; }
-        public int Empresa { get; set; }
-        public int Sucursal { get; set; }
+        public int? Empresa { get; set; }
+        public int? Sucursal { get; set; }
         public string? Deposito { get; set; }
         public string? CodigoVendedor { get; set; }
         public string? NombreVendedor { get; set; }
         public string? EmailVendedor { get; set; }
         public string? TelefonoVendedor { get; set; }
-        public int Prefijo { get; set; }
+        public int? Prefijo { get; set; }
     }
 }

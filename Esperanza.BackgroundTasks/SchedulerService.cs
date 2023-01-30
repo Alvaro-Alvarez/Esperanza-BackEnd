@@ -8,10 +8,10 @@ namespace Esperanza.BackgroundTasks
     {
         static public void Start(IConfiguration config)
         {
-            RecurringJob.AddOrUpdate<ItemUpdateService>("UpdateProducts", (p) => p.UpdateProducts(), config.GetValue<string>("Cron:Products"));
-            RecurringJob.AddOrUpdate<ItemUpdateService>("UpdateCustomers", (p) => p.UpdateCtaCte(), config.GetValue<string>("Cron:Customers"));
-            RecurringJob.AddOrUpdate<ItemUpdateService>("UpdateCustomerConditions", (p) => p.UpdateConditions(), config.GetValue<string>("Cron:CustomerConditions"));
-            RecurringJob.AddOrUpdate<ItemUpdateService>("UpdatePriceLists", (p) => p.UpdateLists(), config.GetValue<string>("Cron:PriceLists"));
+            //RecurringJob.AddOrUpdate<ItemUpdateService>("UpdateProducts", (p) => p.UpdateProducts(), config.GetValue<string>("Cron:Products"));
+            //RecurringJob.AddOrUpdate<ItemUpdateService>("UpdateCustomers", (p) => p.UpdateCtaCte(), config.GetValue<string>("Cron:Customers"));
+            //RecurringJob.AddOrUpdate<ItemUpdateService>("UpdateCustomerConditions", (p) => p.UpdateConditions(), config.GetValue<string>("Cron:CustomerConditions"));
+            //RecurringJob.AddOrUpdate<ItemUpdateService>("UpdatePriceLists", (p) => p.UpdateLists(), config.GetValue<string>("Cron:PriceLists"));
         }
     }
 }

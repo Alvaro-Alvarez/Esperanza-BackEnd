@@ -7,19 +7,19 @@ namespace Esperanza.Api.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
-        private readonly IFileService _fileService;
+        //private readonly IFileService _fileService;
 
-        public FileController(
-            IFileService fileService)
-        {
-            _fileService = fileService;
-        }
+        //public FileController(
+        //    IFileService fileService)
+        //{
+        //    _fileService = fileService;
+        //}
 
-        [HttpPost("ProductsByXlsx")]
-        public async Task<ActionResult> ProductsByXlsx(IFormFile file)
-        {
-            await _fileService.ImportProducts(file);
-            return Ok();
-        }
+        //[HttpPost("ProductsByXlsx")]
+        //public async Task<ActionResult> ProductsByXlsx(IFormFile file)
+        //{
+        //    await _fileService.ImportProducts(file);
+        //    return Ok();
+        //}
     }
 }
