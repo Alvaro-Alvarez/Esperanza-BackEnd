@@ -16,9 +16,9 @@ namespace Esperanza.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> FinishOrder([FromBody] Order order)
+        public async Task<ActionResult> FinishOrder([FromBody] OrderItems orderItems)
         {
-            await OrderService.FinishOrder(order);
+            await OrderService.FinishOrder(orderItems, User.Identity.Name);
             return Ok();
         }
     }

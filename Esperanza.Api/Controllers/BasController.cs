@@ -49,6 +49,16 @@ namespace Esperanza.Api.Controllers
             return Ok(res.Content);
         }
 
+        [HttpGet("GetCarriers")]
+        //[Authorize]
+        public async Task<ActionResult> GetCarriers()
+        {
+            var client = new RestClient(BASApiOptions.ApiUrl);
+            var request = new RestRequest($"{BASApiOptions.CarriersController}", Method.Get);
+            var res = await client.ExecuteAsync(request);
+            return Ok(res.Content);
+        }
+
         //[HttpPost("GetRangeSemaphoreData/{productCode}")]
         ////[Authorize]
         //public async Task<ActionResult> GetRangeSemaphoreData(BasSemaphoreRequest req) 

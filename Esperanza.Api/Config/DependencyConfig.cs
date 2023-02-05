@@ -67,7 +67,7 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IGenericRepository<Laboratory>, LaboratoryRepository>();
             services.AddSingleton<IGenericRepository<TransportSync>, TransportSyncRepository>();
             services.AddSingleton<IGenericRepository<PriceListSync>, PriceListSyncRepository>();
-            services.AddSingleton<IGenericRepository<CustomerConditionSync>, CustomerConditionSyncRepository>();
+            services.AddSingleton<ICustomerConditionSyncRepository, CustomerConditionSyncRepository>();
             services.AddSingleton<IGenericRepository<CustomerSync>, CustomerSyncRepository>();
             services.AddSingleton<IGenericRepository<PropductSync>, PropductSyncRepository>();
 

@@ -52,6 +52,7 @@ builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JwtBear
 builder.Services.Configure<BASApiOptions>(builder.Configuration.GetSection("BASApi"));
 builder.Services.Configure<ServicesOption>(builder.Configuration.GetSection("Services"));
 builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("EmailOptions"));
+builder.Services.Configure<OrderServiceOptions>(builder.Configuration.GetSection("OrderService"));
 #endregion
 
 #region Config Hangfire

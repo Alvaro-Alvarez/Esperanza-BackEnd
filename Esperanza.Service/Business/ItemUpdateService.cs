@@ -17,7 +17,7 @@ namespace Esperanza.Service.Business
         private readonly IMapper _mapper;
         private readonly IGenericRepository<PropductSync> _propductSyncRepository;
         private readonly IGenericRepository<CustomerSync> _customerSyncRepository;
-        private readonly IGenericRepository<CustomerConditionSync> _customerConditionSyncRepository;
+        private readonly ICustomerConditionSyncRepository _customerConditionSyncRepository;
         private readonly IGenericRepository<PriceListSync> _priceListSyncRepository;
         private readonly IGenericRepository<TransportSync> _transportSyncRepository;
 
@@ -26,7 +26,7 @@ namespace Esperanza.Service.Business
             IMapper mapper,
             IGenericRepository<PropductSync> propductSyncRepository,
             IGenericRepository<CustomerSync> customerSyncRepository,
-            IGenericRepository<CustomerConditionSync> customerConditionSyncRepository,
+            ICustomerConditionSyncRepository customerConditionSyncRepository,
             IGenericRepository<PriceListSync> priceListSyncRepository,
             IGenericRepository<TransportSync> transportSyncRepository
             )
@@ -42,6 +42,30 @@ namespace Esperanza.Service.Business
 
         public async Task UpdateProducts()
         {
+            ////TODO: Tomar el campo "ACTUALIZADO" para ver si actualizar el item o no, tambien llamar el endpoint final para decirle que ya fueron actualizados.
+            //const int maxItems = 4200;
+            //const int itemsPerPage = 300;
+            //int init = 1;
+            //var items = new List<Item>();
+            //for (int i = 0; i < maxItems; i = i + itemsPerPage)
+            //{
+            //    var setItems = await GetData<List<Item>>($"{_servicesOption.ItemsController}&PAGINA={itemsPerPage}&DESDE={init}");
+            //    items.AddRange(setItems);
+            //    init += itemsPerPage;
+            //}
+            //var insertedCodes = (await _propductSyncRepository.GetProductCodes()).ToList();
+            //var recordToInsert = GetRecordToInsert(items, insertedCodes, SyncCodeConstant.Product);
+            //var recordToRemove = insertedCodes.Except(items.Select(i => i.CODIGO)).ToList();
+            //var itemsToSave = _mapper.Map<List<PropductSync>>(recordToInsert);
+            //itemsToSave.ForEach(item =>
+            //{
+            //    item.Guid = Guid.NewGuid();
+            //    item.CreatedAt = DateTime.Now;
+            //    item.CreatedBy = Guid.Empty;
+            //});
+            //await _propductSyncRepository.SaveRangeAsync(itemsToSave);
+            //await _propductSyncRepository.DeleteRowsRange(recordToRemove, SyncCodeConstant.Product);
+
             //TODO: Tomar el campo "ACTUALIZADO" para ver si actualizar el item o no, tambien llamar el endpoint final para decirle que ya fueron actualizados.
             var items = await GetData<List<Item>>(_servicesOption.ItemsController);
             var insertedCodes = (await _propductSyncRepository.GetProductCodes()).ToList();
