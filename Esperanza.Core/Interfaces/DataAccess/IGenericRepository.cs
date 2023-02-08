@@ -19,5 +19,6 @@
         Task<IEnumerable<string>> GetCustomerCodes();
         Task<IEnumerable<string>> GetPriceListCodes();
         Task<IEnumerable<string>> GetTransportCodes();
+        Task SoftDelete(string id);
     }
 }

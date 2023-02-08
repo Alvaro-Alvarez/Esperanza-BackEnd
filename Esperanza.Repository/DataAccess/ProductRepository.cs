@@ -16,7 +16,7 @@ namespace Esperanza.Repository.DataAccess
 
         public ProductRepository(
             IConnectionBuilder connectionBuilder
-            ) : base(Table.Product, connectionBuilder)
+            ) : base(Table.PropductSync, connectionBuilder)
         {
             ConnectionBuilder = connectionBuilder;
         }

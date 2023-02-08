@@ -14,62 +14,47 @@ namespace Esperanza.Api.Config
             #region Service
             services.AddSingleton<IMasterDataService, MasterDataService>();
             services.AddSingleton<IPhoneService, PhoneService>();
-            services.AddSingleton<IAddressService, AddressService>();
-            services.AddSingleton<IPrincipalImageService, PrincipalImageService>();
-            services.AddSingleton<ICrossSellingService, CrossSellingService>();
-            services.AddSingleton<IUpSellingService, UpSellingService>();
-            services.AddSingleton<IProductService, ProductService>();
-            services.AddSingleton<IGalleryImageService, GalleryImageService>();
             services.AddSingleton<IPersonService, PersonService>();
             services.AddSingleton<IAppUserService, AppUserService>();
-            services.AddSingleton<IProductsOrderService, ProductsOrderService>();
             services.AddSingleton<IJwtService, JwtService>();
             services.AddSingleton<IAuthService, AuthService>();
             services.AddSingleton<IRoleService, RoleService>();
             services.AddSingleton<IBasApiService, BasApiService>();
             services.AddSingleton<IHttpService, HttpService>();
-            services.AddSingleton<IFileService, FileService>();
             services.AddSingleton<IItemUpdateService, ItemUpdateService>();
             services.AddSingleton<IEmailService, EmailService>();
             services.AddSingleton<IOrderService, OrderService>();
+            services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<IImageService, ImageService>();
+            services.AddSingleton<IVideoService, VideoService>();
+            services.AddSingleton<ICarouselService, CarouselService>();
+            services.AddSingleton<IPromotionalVideoService, PromotionalVideoService>();
+            services.AddSingleton<ILaboratoryService, LaboratoryService>();
             #endregion
 
             #region Repositories
             services.AddSingleton<IPhoneRepository, PhoneRepository>();
-            services.AddSingleton<IAddressRepository, AddressRepository>();
-            services.AddSingleton<IPrincipalImageRepository, PrincipalImageRepository>();
-            services.AddSingleton<IProductRepository, ProductRepository>();
-            services.AddSingleton<IGalleryImageRepository, GalleryImageRepository>();
             services.AddSingleton<IPersonRepository, PersonRepository>();
             services.AddSingleton<IAppUserRepository, AppUserRepository>();
-            services.AddSingleton<IProductsOrderRepository, ProductsOrderRepository>();
-            services.AddSingleton<ICrossSellingRepository, CrossSellingRepository>();
-            services.AddSingleton<IUpSellingRepository, UpSellingRepository>();
-            services.AddSingleton<ICategoryRepository, CategoryRepository>();
-            services.AddSingleton<IKindRepository, KindRepository>();
-            services.AddSingleton<ILineRepository, LineRepository>();
-            services.AddSingleton<IUserProductRepository, UserProductRepository>();
             services.AddSingleton<IEmailTemplateRepository, EmailTemplateRepository>();
             services.AddSingleton<IEmailKeysRepository, EmailKeysRepository>();
-
-            services.AddSingleton<IConnectionBuilder, ConnectionBuilder>();
             services.AddSingleton<IGenericRepository<DocumentType>, DocumentTypeRepository>();
+            services.AddSingleton<IConnectionBuilder, ConnectionBuilder>();
             services.AddSingleton<IGenericRepository<Sex>, SexRepository>();
-            services.AddSingleton<IGenericRepository<Country>, CountryRepository>();
-            services.AddSingleton<IGenericRepository<City>, CityRepository>();
-            services.AddSingleton<IGenericRepository<Neighborhood>, NeighborhoodRepository>();
+            services.AddSingleton<IGenericRepository<PageType>, PageTypeRepository>();
             services.AddSingleton<IGenericRepository<UserRole>, UserRoleRepository>();
-            services.AddSingleton<IGenericRepository<OrderStatus>, OrderStatusRepository>();
-            services.AddSingleton<IGenericRepository<Vademecum>, VademecumRepository>();
-            services.AddSingleton<IGenericRepository<SubCategory>, SubCategoryRepository>();
-            services.AddSingleton<IGenericRepository<SupplierItem>, SupplierItemRepository>();
-            services.AddSingleton<IGenericRepository<List>, ListRepository>();
-            services.AddSingleton<IGenericRepository<Laboratory>, LaboratoryRepository>();
-            services.AddSingleton<IGenericRepository<TransportSync>, TransportSyncRepository>();
             services.AddSingleton<IGenericRepository<PriceListSync>, PriceListSyncRepository>();
             services.AddSingleton<ICustomerConditionSyncRepository, CustomerConditionSyncRepository>();
             services.AddSingleton<IGenericRepository<CustomerSync>, CustomerSyncRepository>();
             services.AddSingleton<IGenericRepository<PropductSync>, PropductSyncRepository>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
+            services.AddSingleton<ILaboratoryRepository, LaboratoryRepository>();
+            services.AddSingleton<IPromotionalVideoRepository, PromotionalVideoRepository>();
+            services.AddSingleton<ICarouselSlideRepository, CarouselSlideRepository>();
+            services.AddSingleton<ICarouselPageRepository, CarouselPageRepository>();
+            services.AddSingleton<IPageTypeRepository, PageTypeRepository>();
+            services.AddSingleton<IVideoRepository, VideoRepository>();
+            services.AddSingleton<IImageRepository, ImageRepository>();
 
             #endregion
 

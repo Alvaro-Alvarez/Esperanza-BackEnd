@@ -1,12 +1,10 @@
-﻿using Esperanza.Core.Enums;
-using Esperanza.Core.Interfaces.Business;
+﻿using Esperanza.Core.Interfaces.Business;
 using Esperanza.Core.Interfaces.DataAccess;
 using Esperanza.Core.Models;
 using Esperanza.Core.Options;
 using Microsoft.Extensions.Options;
 using System.Net.Mail;
 using System.Net;
-using Esperanza.Core.Constants;
 
 namespace Esperanza.Service.Business
 {

@@ -178,6 +178,16 @@ namespace Esperanza.Repository.DataAccess
             }
         }
 
+        public virtual async Task SoftDelete(string id)
+        {
+            var pkName = GetNameKey(GetProperties);
+            var query = $"update {TableName} set deleted = 1 where {pkName} = '{id}'";
+            using (var connection = CreateConnection())
+            {
+                await connection.ExecuteAsync(query);
+            }
+        }
+
         #endregion
 
         #region Private Methods

@@ -5,7 +5,6 @@
         Task UpdateProducts();
         Task UpdateCtaCte();
         Task UpdateLists();
-        //Task UpdateTranspors();
         Task UpdateConditions();
     }
 }

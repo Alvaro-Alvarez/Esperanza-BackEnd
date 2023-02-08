@@ -1,58 +1,53 @@
 ﻿using Esperanza.Core.Interfaces.Business;
 using Esperanza.Core.Models;
-using Esperanza.Core.Models.Options;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Esperanza.Service.Business
 {
     public class ImageService : IImageService
     {
-        private readonly ImageOptions Options;
+        private const string extension = ".png";
+        private const string base64Start = "data:image/jpeg;base64,";
 
-        public ImageService(
-            IOptions<ImageOptions> options
-            )
+        public void SavePhysicalImage(Image image, string directory)
         {
-            Options = options.Value;
-        }
-
-        public void SavePhysicalPrincipalImage(PrincipalImage principalImage)
-        {
-            // TODO: Eliminar la imagen para volver a meterla, ya que si editas no hay manera de saber si es una nueva imagen
-            if (!string.IsNullOrEmpty(principalImage.Base64Image))
+            if (!string.IsNullOrEmpty(image.Base64Image))
             {
-                string extension = ".jpg";
-                string imageName = principalImage.Guid + extension;
-                var bytes = Convert.FromBase64String(principalImage.Base64Image.Split(",").Last());
-                string filePath = Options.Principal + imageName;
+                string imageName = image.Guid + extension;
+                var bytes = Convert.FromBase64String(image.Base64Image.Split(",").Last());
+                string filePath = directory + imageName;
                 File.WriteAllBytes(filePath, bytes);
-                principalImage.FullName = imageName;
-                principalImage.Extension = extension;
-                principalImage.ImagePath = "assets" + filePath.Split("assets").Last();
+                image.FullName = imageName;
+                image.Extension = extension;
             }
+        }
+
+        public void UpdatePhysicalImage(Image image, string directory)
+        {
+            var files = Directory.GetFiles(directory);
+            var file = files.Where(f => f == $"{directory}{image.Guid}{extension}").FirstOrDefault();
+            if (file != null) File.Delete(file);
+            SavePhysicalImage(image, directory);
 
         }
-        public void SavePhysicalGalleryImage(List<GalleryImage> galleryImages)
+
+        public string GetBase64RangeImage(string directory, string id)
         {
-            foreach (var galleryImage in galleryImages)
+            try
             {
-                if (!string.IsNullOrEmpty(galleryImage.Base64Image))
-                {
-                    string extension = ".jpg";
-                    string imageName = galleryImage.Guid + extension;
-                    var bytes = Convert.FromBase64String(galleryImage.Base64Image.Split(",").Last());
-                    string filePath = Options.Gallery + imageName;
-                    File.WriteAllBytes(filePath, bytes);
-                    galleryImage.FullName = imageName;
-                    galleryImage.Extension = extension;
-                    galleryImage.ImagePath = "assets" + filePath.Split("assets").Last();
-                }
+                var fileBytes = File.ReadAllBytes($"{directory}{id}{extension}");
+                return $"{base64Start}{Convert.ToBase64String(fileBytes)}";
             }
+            catch (Exception e)
+            {
+                return string.Empty;
+            }
+        }
+
+        public void RemovePhysicalImage(Image image, string directory)
+        {
+            var files = Directory.GetFiles(directory);
+            var file = files.Where(f => f == $"{directory}{image.Guid}{extension}").FirstOrDefault();
+            if (file != null) File.Delete(file);
 
         }
     }

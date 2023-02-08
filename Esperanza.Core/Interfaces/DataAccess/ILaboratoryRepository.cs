@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Esperanza.Core.Models;
 
 namespace Esperanza.Core.Interfaces.DataAccess
 {
-    internal class ILaboratoryRepository
+    public interface ILaboratoryRepository : IGenericRepository<Laboratory>
     {
+        Task<List<Laboratory>> GetAll();
+        Task<Laboratory> GetById(string id);
+        Task<List<Laboratory>> GetTopFive();
     }
 }

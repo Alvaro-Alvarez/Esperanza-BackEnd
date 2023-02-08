@@ -8,49 +8,20 @@ namespace Esperanza.Service.Business
     {
         private readonly IGenericRepository<DocumentType> DocumentTypeRepository;
         private readonly IGenericRepository<Sex> SexRepository;
-        private readonly IGenericRepository<Country> CountryRepository;
-        private readonly IGenericRepository<City> CityRepository;
-        private readonly IGenericRepository<Neighborhood> NeighborhoodRepository;
         private readonly IGenericRepository<UserRole> UserRoleRepository;
-        private readonly IGenericRepository<OrderStatus> OrderStatusRepository;
-        private readonly IGenericRepository<Vademecum> VademecumRepository;
-        private readonly IGenericRepository<SubCategory> SubCategoryRepository;
-        private readonly IGenericRepository<SupplierItem> SupplierItemRepository;
-        private readonly IGenericRepository<List> ListRepository;
-        private readonly ICategoryRepository CategoryRepository;
-        private readonly IKindRepository KindRepository;
-        private readonly ILineRepository LineRepository;
+        private readonly IGenericRepository<PageType> PageTypeRepository;
 
         public MasterDataService(
             IGenericRepository<DocumentType> documentTypeRepository,
             IGenericRepository<Sex> sexRepository,
-            IGenericRepository<Country> countryRepository,
-            IGenericRepository<City> cityRepository,
-            IGenericRepository<Neighborhood> neighborhoodRepository,
             IGenericRepository<UserRole> userRoleRepository,
-            ICategoryRepository categoryRepository,
-            IKindRepository kindRepository,
-            ILineRepository lineRepository,
-            IGenericRepository<OrderStatus> orderStatusRepository,
-            IGenericRepository<Vademecum> vademecumRepository,
-            IGenericRepository<SubCategory> subCategoryRepository,
-            IGenericRepository<SupplierItem> supplierItemRepository,
-            IGenericRepository<List> listRepository)
+            IGenericRepository<PageType> pageTypeRepository
+            )
         {
             DocumentTypeRepository = documentTypeRepository;
             SexRepository = sexRepository;
-            CountryRepository = countryRepository;
-            CityRepository = cityRepository;
-            NeighborhoodRepository = neighborhoodRepository;
             UserRoleRepository = userRoleRepository;
-            CategoryRepository = categoryRepository;
-            KindRepository = kindRepository;
-            LineRepository = lineRepository;
-            OrderStatusRepository = orderStatusRepository;
-            VademecumRepository = vademecumRepository;
-            SubCategoryRepository = subCategoryRepository;
-            SupplierItemRepository = supplierItemRepository;
-            ListRepository = listRepository;
+            PageTypeRepository = pageTypeRepository;
         }
 
         public async Task<List<DocumentType>> GetAllTypesOfDocumentsAsync()
@@ -63,64 +34,14 @@ namespace Esperanza.Service.Business
             return (await SexRepository.GetAllAsync()).ToList();
         }
 
-        public async Task<List<Country>> GetAllCountriesAsync()
-        {
-            return (await CountryRepository.GetAllAsync()).ToList();
-        }
-
-        public async Task<List<City>> GetAllCitiesAsync()
-        {
-            return (await CityRepository.GetAllAsync()).ToList();
-        }
-
-        public async Task<List<Neighborhood>> GetAllNeighborhoodsAsync()
-        {
-            return (await NeighborhoodRepository.GetAllAsync()).ToList();
-        }
-
         public async Task<List<UserRole>> GetAllUserRolesAsync()
         {
             return (await UserRoleRepository.GetAllAsync()).ToList();
         }
 
-        public async Task<List<Category>> GetAllCategoriesAsync()
+        public async Task<List<PageType>> GetPagesTypes()
         {
-            return (await CategoryRepository.GetAllAsync()).ToList();
-        }
-
-        public async Task<List<Kind>> GetAllKindsAsync()
-        {
-            return (await KindRepository.GetAllAsync()).ToList();
-        }
-
-        public async Task<List<Line>> GetAllLinesAsync()
-        {
-            return (await LineRepository.GetAllAsync()).ToList();
-        }
-
-        public async Task<List<OrderStatus>> GetAllOrderStatuesAsync()
-        {
-            return (await OrderStatusRepository.GetAllAsync()).ToList();
-        }
-
-        public async Task<List<List>> GetAllListsAsync()
-        {
-            return (await ListRepository.GetAllAsync()).ToList();
-        }
-
-        public async Task<List<Vademecum>> GetVademecumAsync()
-        {
-            return (await VademecumRepository.GetAllAsync()).ToList();
-        }
-
-        public async Task<List<SubCategory>> GetAllSubCategoriesAsync()
-        {
-            return (await SubCategoryRepository.GetAllAsync()).ToList();
-        }
-
-        public async Task<List<SupplierItem>> GetAllSupplierItemsAsync()
-        {
-            return (await SupplierItemRepository.GetAllAsync()).ToList();
+            return (await PageTypeRepository.GetAllAsync()).ToList();
         }
     }
 }

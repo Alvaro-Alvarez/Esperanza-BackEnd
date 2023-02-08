@@ -25,7 +25,6 @@ var mapperConfig = new MapperConfiguration(m =>
     m.AddProfile(new CustomerConditionSyncMappingProfile());
     m.AddProfile(new CustomerSyncMappingProfile());
     m.AddProfile(new PriceListSyncMappingProfile());
-    //m.AddProfile(new TransportSyncMappingProfile());
 });
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);

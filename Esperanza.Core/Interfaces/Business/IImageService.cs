@@ -4,7 +4,9 @@ namespace Esperanza.Core.Interfaces.Business
 {
     public interface IImageService
     {
-        void SavePhysicalPrincipalImage(PrincipalImage principalImage);
-        void SavePhysicalGalleryImage(List<GalleryImage> galleryImages);
+        void SavePhysicalImage(Image image, string directory);
+        void UpdatePhysicalImage(Image image, string directory);
+        string GetBase64RangeImage(string directory, string id);
+        void RemovePhysicalImage(Image image, string directory);
     }
 }
