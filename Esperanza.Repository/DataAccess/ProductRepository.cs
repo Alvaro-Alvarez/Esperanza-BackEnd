@@ -4,6 +4,7 @@ using Esperanza.Core.Interfaces.DataAccess;
 using Esperanza.Core.Models;
 using Esperanza.Core.Models.Request;
 using Esperanza.Core.Models.Response;
+using Esperanza.Core.Models.SPs;
 using Esperanza.Repository.Constants;
 using System.Data;
 
@@ -19,6 +20,67 @@ namespace Esperanza.Repository.DataAccess
             ) : base(Table.PropductSync, connectionBuilder)
         {
             ConnectionBuilder = connectionBuilder;
+        }
+
+        public async Task<List<ProductsSyncResponseDTO>> GetAllByLaboratory(GetByLaboratory filter, bool logged, string clitenCode)
+        {
+            List<ProductsSyncDTO> products;
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                products = db.Query<ProductsSyncDTO>("GetProductsByLaboratory", new {
+                    Start = filter.Start,
+                    Logged = logged,
+                    ClientCode = clitenCode,
+                    Laboratory = filter.Laboratory,
+                }, commandType: CommandType.StoredProcedure).ToList();
+            }
+            return await GetProductsWithUpdatePrices(products, noLogged: true);
+        }
+
+        public async Task<List<ProductsSyncResponseDTO>> GetTopFive(bool logged, string clitenCode)
+        {
+            List<ProductsSyncDTO> products;
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                products = db.Query<ProductsSyncDTO>("GetProductsTopFive", new
+                {
+                    Logged = logged,
+                    ClientCode = clitenCode
+                }, commandType: CommandType.StoredProcedure).ToList();
+            }
+            return await GetProductsWithUpdatePrices(products, noLogged: false);
+        }
+
+        public async Task<List<ProductsSyncResponseDTO>> GetAllPaginatedNew(Filter filter, bool logged, string clientCode)
+        {
+            List<ProductsSyncDTO> products;
+            if (filter.Condiciones.Count == 0)
+            {
+                filter.Condiciones.Add("CCM");
+                filter.Condiciones.Add("CCB");
+            }
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                products = db.Query<ProductsSyncDTO>("GetProducts", new
+                {
+                    Search = filter.Search,
+                    Conditions = string.Join(",", filter.Condiciones),
+                    ClientCode = clientCode,
+                    Start = filter.Start,
+                    Marca = filter.Marcas,
+                    Proveedor = filter.Proveedores,
+                    Subrubro = filter.Subrubros,
+                    Vademecum = filter.Vademecums,
+                    Tipo = filter.Tipos,
+                    Laboratorio = filter.Laboratorios,
+                    Categoria = filter.Categorias,
+                    Droga = filter.Drogas,
+                    Accion = filter.Acciones,
+                    Especie = filter.Especies,
+                    ViaAdministracion = filter.ViaAdministraciones
+                }, commandType: CommandType.StoredProcedure).ToList();
+            }
+            return await GetProductsWithUpdatePrices(products);
         }
 
         public async Task<List<ProductsSyncResponseDTO>> GetAllPaginated(Filter filter, string clientCode)
@@ -179,6 +241,38 @@ namespace Esperanza.Repository.DataAccess
             return await FillValuesToFilter(products);
         }
 
+        public async Task<ValuesToFilter> GetValuesToFilterNew(Filter filter, bool logged, string clientCode)
+        {
+            List<ProductsSyncDTO> products;
+            if (filter.Condiciones.Count == 0)
+            {
+                filter.Condiciones.Add("CCM");
+                filter.Condiciones.Add("CCB");
+            }
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                products = db.Query<ProductsSyncDTO>("GetProductsForFilter", new
+                {
+                    Search = filter.Search,
+                    Conditions = string.Join(",", filter.Condiciones),
+                    ClientCode = clientCode,
+                    Start = filter.Start,
+                    Marca = filter.Marcas,
+                    Proveedor = filter.Proveedores,
+                    Subrubro = filter.Subrubros,
+                    Vademecum = filter.Vademecums,
+                    Tipo = filter.Tipos,
+                    Laboratorio = filter.Laboratorios,
+                    Categoria = filter.Categorias,
+                    Droga = filter.Drogas,
+                    Accion = filter.Acciones,
+                    Especie = filter.Especies,
+                    ViaAdministracion = filter.ViaAdministraciones
+                }, commandType: CommandType.StoredProcedure).ToList();
+            }
+            return await FillValuesToFilter(products);
+        }
+
         public async Task<ValuesToFilter> GetValuesToFilterNoLogged(Filter filter)
         {
             List<ProductsSyncDTO> products;
@@ -204,8 +298,62 @@ namespace Esperanza.Repository.DataAccess
             return await FillValuesToFilter(products);
         }
 
+        public async Task<List<ProductsSyncDTO>> GetAlll(Filter filter, string clientCode)
+        {
+            List<ProductsSyncDTO> products;
+            string query = Product.GetAllFullSyncNoPagination.Replace("@Search", filter.Search);
+            query = query.Replace("@ConditionFilter", GetConditionFilter(filter.Condiciones));
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                products = (await db.QueryAsync<ProductsSyncDTO>(
+                    query,
+                    new
+                    {
+                        ClientCode = clientCode,
+                        Marca = filter.Marcas,
+                        Proveedor = filter.Proveedores,
+                        Subrubro = filter.Subrubros,
+                        Vademecum = filter.Vademecums,
+                        Tipo = filter.Tipos,
+                        Laboratorio = filter.Laboratorios,
+                        Categoria = filter.Categorias,
+                        Droga = filter.Drogas,
+                        Accion = filter.Acciones,
+                        Especie = filter.Especies,
+                        ViaAdministracion = filter.ViaAdministraciones
+                    }
+                    )).ToList();
+            }
+            return products;
+        }
+
+        public async Task<List<ProductsSyncDTO>> GetAlllNoLogged(Filter filter)
+        {
+            List<ProductsSyncDTO> products;
+            string query = Product.GetAllFullNoLoggedSyncNoPagination.Replace("@Search", filter.Search);
+            query = query.Replace("@ConditionFilter", GetConditionFilter(filter.Condiciones));
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                products = (await db.QueryAsync<ProductsSyncDTO>(query, new
+                {
+                    Marca = filter.Marcas,
+                    Proveedor = filter.Proveedores,
+                    Subrubro = filter.Subrubros,
+                    Vademecum = filter.Vademecums,
+                    Tipo = filter.Tipos,
+                    Laboratorio = filter.Laboratorios,
+                    Categoria = filter.Categorias,
+                    Droga = filter.Drogas,
+                    Accion = filter.Acciones,
+                    Especie = filter.Especies,
+                    ViaAdministracion = filter.ViaAdministraciones
+                })).ToList();
+            }
+            return products;
+        }
+
         #region Private Methods
-        private async Task<ValuesToFilter> FillValuesToFilter(List<ProductsSyncDTO> products)
+        public async Task<ValuesToFilter> FillValuesToFilter(List<ProductsSyncDTO> products)
         {
             var marcas = products.Where(p => !string.IsNullOrEmpty(p.MARCA)).Select(p => p.MARCA).Distinct().ToList();
             var proveedores = products.Where(p => !string.IsNullOrEmpty(p.PROVEEDOR)).Select(p => p.PROVEEDOR).Distinct().ToList();
@@ -280,12 +428,17 @@ namespace Esperanza.Repository.DataAccess
             return Tuple.Create(itemFilters.OrderBy(i => i.Value).ToList(), itemFilters.Count > 0);
         }
 
-        private async Task<List<ProductsSyncResponseDTO>> GetProductsWithUpdatePrices(List<ProductsSyncDTO> products, bool noLogged = false)
+        public async Task<List<ProductsSyncResponseDTO>> GetProductsWithUpdatePrices(List<ProductsSyncDTO> products, bool noLogged = false)
         {
             List<ProductsSyncResponseDTO> newProducts = new List<ProductsSyncResponseDTO>();
             foreach (var product in products)
             {
-                var price = product.GetType().GetProperty(noLogged ? NoLoggedColumn : product.COLUMNA_SELECCIONADA).GetValue(product, null);
+                object price = 0;
+                try
+                {
+                    price = product.GetType().GetProperty(noLogged ? NoLoggedColumn : product.COLUMNA_SELECCIONADA).GetValue(product, null);
+                }
+                catch { }
                 newProducts.Add(new ProductsSyncResponseDTO()
                 {
                     CODIGO = product.CODIGO,
@@ -314,6 +467,7 @@ namespace Esperanza.Repository.DataAccess
                     OBS = product.OBS,
                     FECHAREG = product.FECHAREG,
                     FOTO = product.FOTO,
+                    ROW_COUNT = product.ROW_COUNT,
                     CONDICION = product.CONDICION,
                     PRECIO = price?.ToString(),
                     LOGGED = noLogged ? false : true

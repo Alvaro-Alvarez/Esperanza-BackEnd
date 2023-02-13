@@ -2,6 +2,8 @@
 using Esperanza.Core.Interfaces.DataAccess;
 using Esperanza.Core.Models;
 using Esperanza.Core.Models.Options;
+using Esperanza.Core.Models.Request;
+using Esperanza.Core.Models.SPs;
 using Esperanza.Service.Helpers;
 using Microsoft.Extensions.Options;
 
@@ -37,6 +39,11 @@ namespace Esperanza.Service.Business
             return await LaboratoryRepository.GetTopFive();
         }
 
+        public async Task<List<LaboratorySp>> GetAllWithPagination(Pagination pagination)
+        {
+            return await LaboratoryRepository.GetAllSp(pagination);
+        }
+
         public async Task<Laboratory> GetById(string id)
         {
             return await LaboratoryRepository.GetById(id);
@@ -66,6 +73,7 @@ namespace Esperanza.Service.Business
             InitUpdates(item, userId, delete: true);
             await ImageRepository.SoftDelete(item.IdImage.ToString());
             await LaboratoryRepository.SoftDelete(item.Guid.ToString());
+            ImageService.RemovePhysicalImage(item.Image, Options.Laboratory);
         }
 
         #region Private Methods

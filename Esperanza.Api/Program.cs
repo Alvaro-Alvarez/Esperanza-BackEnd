@@ -8,6 +8,7 @@ using Esperanza.Core.Models.Options;
 using Esperanza.Core.Options;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +75,20 @@ builder.Services.AddCors(options =>
         .AllowCredentials());
 });
 #endregion
+
+//#region Max Length Resquest Body
+//builder.Services.Configure<IISServerOptions>(options =>
+//{
+//    options.MaxRequestBodySize = int.MaxValue;
+//});
+//builder.Services.Configure<FormOptions>(x =>
+//{
+//    x.ValueLengthLimit = int.MaxValue;
+//    x.MultipartBodyLengthLimit = int.MaxValue;
+//    x.MultipartHeadersLengthLimit = int.MaxValue;
+//});
+
+//#endregion
 
 var app = builder.Build();
 

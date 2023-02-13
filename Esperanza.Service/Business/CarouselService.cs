@@ -51,7 +51,10 @@ namespace Esperanza.Service.Business
         public async Task<CarouselPage> GetByPageType(string pageType)
         {
             var page = await CarouselPageRepository.GetByPageType(pageType);
-            page.Slides = await CarouselSlideRepository.GetByPagesIds(new List<string>() { page.Guid.ToString() });
+            if (page != null)
+            {
+                page.Slides = await CarouselSlideRepository.GetByPagesIds(new List<string>() { page.Guid.ToString() });
+            }
             return page;
         }
 

@@ -89,6 +89,7 @@ namespace Esperanza.Core.Models.Response
         public string PRECIO_O { get; set; }
         public string PRECIO_NL { get; set; }
         public string CONDICION { get; set; }
+        public int ROW_COUNT { get; set; }
     }
 
     public class ProductsSyncResponseDTO
@@ -122,6 +123,7 @@ namespace Esperanza.Core.Models.Response
         public string PRECIO { get; set; }
         public bool LOGGED { get; set; }
         public string CONDICION { get; set; }
+        public int ROW_COUNT { get; set; }
 
         [Description("ignore")]
         public string? Semaphore { get; set; }

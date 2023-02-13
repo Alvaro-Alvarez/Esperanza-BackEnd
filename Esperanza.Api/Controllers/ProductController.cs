@@ -17,6 +17,12 @@ namespace Esperanza.Api.Controllers
         }
 
 
+        [HttpGet("GetTopFive")]
+        public async Task<ActionResult> GetTopFive()
+        {
+            return Ok(await _productService.GetTopFive(User.Identity.Name, User.Identity.Name != null));
+        }
+
         [HttpGet("GetByCode/{cod}")]
         public async Task<ActionResult> GetByCode(string cod)
         {
@@ -27,6 +33,12 @@ namespace Esperanza.Api.Controllers
         public async Task<ActionResult> GetByGuid([FromBody] Filter filter)
         {
             return Ok(await _productService.GetAllPaginated(filter, User.Identity.Name, User.Identity.Name != null));
+        }
+
+        [HttpPost("GetAllByLaboratory")]
+        public async Task<ActionResult> GetAllWithPagination(GetByLaboratory filter)
+        {
+            return Ok(await _productService.GetAllByLaboratory(filter, User.Identity.Name, User.Identity.Name != null));
         }
     }
 }

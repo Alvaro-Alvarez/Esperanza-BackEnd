@@ -3,6 +3,8 @@ using Esperanza.Core.Interfaces.Business;
 using Esperanza.Core.Interfaces.DataAccess;
 using Esperanza.Core.Models;
 using Esperanza.Core.Models.Options;
+using Esperanza.Core.Models.Request;
+using Esperanza.Core.Models.SPs;
 using Esperanza.Repository.Constants;
 using Microsoft.Extensions.Options;
 using System.Data;
@@ -40,6 +42,21 @@ namespace Esperanza.Repository.DataAccess
                 }, splitOn: "Guid")).ToList();
             }
             return laboratories;
+        }
+
+        public async Task<List<LaboratorySp>> GetAllSp(Pagination pagination)
+        {
+            List<LaboratorySp> labs;
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                labs = db.Query<LaboratorySp>("GetAllLaboratoriesPagination", new { Start = pagination.Start },
+                            commandType: CommandType.StoredProcedure).ToList();
+            }
+            await Parallel.ForEachAsync(labs, async (lab, cancellationToken) =>
+            {
+                lab.Base64Image = ImageService.GetBase64RangeImage(Options.Laboratory, lab.IdImage.ToString());
+            });
+            return labs;
         }
 
         public async Task<List<Laboratory>> GetTopFive()

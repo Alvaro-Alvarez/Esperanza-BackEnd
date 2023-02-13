@@ -1,5 +1,7 @@
 ﻿using Esperanza.Core.Interfaces.Business;
 using Esperanza.Core.Models;
+using Esperanza.Core.Models.Request;
+using Esperanza.Service.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +37,12 @@ namespace Esperanza.Api.Controllers
         public async Task<ActionResult> GetById(string id)
         {
             return Ok(await LaboratoryService.GetById(id));
+        }
+
+        [HttpPost("GetAllWithPagination")]
+        public async Task<ActionResult> GetAllWithPagination(Pagination pagination)
+        {
+            return Ok(await LaboratoryService.GetAllWithPagination(pagination));
         }
 
         [HttpPost]

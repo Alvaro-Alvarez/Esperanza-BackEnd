@@ -9,5 +9,6 @@
         public string ParamExpClientId { get; set; }
         public string ParamExpProductId { get; set; }
         public string CarriersController { get; set; }
+        public string DocumentosCtacteController { get; set; }
     }
 }

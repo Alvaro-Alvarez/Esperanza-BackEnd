@@ -23,7 +23,7 @@ namespace Esperanza.Core.Models
         {
             get
             {
-                return @"SELECT * FROM CarouselPage pg
+                return @"SELECT pg.* FROM CarouselPage pg
                         INNER JOIN PageType pt ON pt.Guid = pg.IdPageType
                         WHERE pt.Name = @PageType;";
             }

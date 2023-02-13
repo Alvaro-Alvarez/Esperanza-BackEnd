@@ -59,6 +59,16 @@ namespace Esperanza.Api.Controllers
             return Ok(res.Content);
         }
 
+        [HttpGet("GetDocumentosCtacte/{basCode}")]
+        //[Authorize]
+        public async Task<ActionResult> GetDocumentosCtacte(string basCode)
+        {
+            var client = new RestClient(BASApiOptions.ApiUrl);
+            var request = new RestRequest($"{BASApiOptions.DocumentosCtacteController}/{basCode}", Method.Get);
+            var res = await client.ExecuteAsync(request);
+            return Ok(res.Content);
+        }
+
         //[HttpPost("GetRangeSemaphoreData/{productCode}")]
         ////[Authorize]
         //public async Task<ActionResult> GetRangeSemaphoreData(BasSemaphoreRequest req) 
