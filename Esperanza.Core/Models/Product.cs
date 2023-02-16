@@ -279,6 +279,66 @@ namespace Esperanza.Core.Models
         }
 
         [Description("ignore")]
+        public static string GetAllRecommended
+        {
+            get
+            {
+                return @"SELECT DISTINCT 
+                        product.CODIGO,
+                        product.CBP,
+                        product.MARCA,
+                        product.PROVEEDOR,
+                        product.SUBRUBRO,
+                        product.VADEMECUM,
+                        product.ALTA,
+                        product.TIPO,
+                        product.LABORATORIO,
+                        product.CATEGORIA,
+                        product.LINEA_BAL,
+                        product.NOMBRE,
+                        product.DROGA,
+                        product.ACCION,
+                        product.DESCRIPCION,
+                        product.ESPECIE,
+                        product.VIA_ADMINISTRACION,
+                        product.PRESENTACION,
+                        product.RETIRO_LECHE,
+                        product.RETIRO_CARNE,
+                        product.DISCONTINUADO,
+                        product.FALTANTE_INFO,
+                        product.FALTANTE_FOTO,
+                        product.OBS,
+                        product.FECHAREG,
+                        product.ENLACE AS FOTO,
+                        condition.COLUMNA AS COLUMNA_SELECCIONADA,
+                        priceList.DESCRIPCION AS DESCRIPCION_LISTA,
+                        priceList.PRECIO,
+                        priceList.PRECIO_A,
+                        priceList.PRECIO_B,
+                        priceList.PRECIO_C,
+                        priceList.PRECIO_D,
+                        priceList.PRECIO_E,
+                        priceList.PRECIO_F,
+                        priceList.PRECIO_G,
+                        priceList.PRECIO_H,
+                        priceList.PRECIO_I,
+                        priceList.PRECIO_J,
+                        priceList.PRECIO_K,
+                        priceList.PRECIO_L,
+                        priceList.PRECIO_M,
+                        priceList.PRECIO_N,
+                        priceList.PRECIO_O,
+                        priceList.PRECIO_NL,
+                        condition.CODCONDI AS CONDICION
+                        FROM CustomerConditionSync condition
+                        INNER JOIN PriceListSync priceList ON priceList.CODLIS = condition.CODLIS
+                        INNER JOIN PropductSync product ON product.CODIGO = priceList.CODITM
+                        WHERE product.Deleted = 0 AND product.ACTIVO = 1 AND product.CODIGO IN @ProductCodes
+                        ORDER BY product.NOMBRE";
+            }
+        }
+
+        [Description("ignore")]
         public static string GetAllFullCountSync
         {
             get

@@ -54,6 +54,19 @@ namespace Esperanza.Service.Business
             };
         }
 
+        public async Task<ProductsResponse> GetAllRecommended(GetRecommended request)
+        {
+            var products = await ProductRepository.GetAllRecommended(request);
+            var cleanProducts = await ProductRepository.GetProductsWithUpdatePrices(products, false);
+            var rows = products.Count();
+            return new ProductsResponse()
+            {
+                Products = cleanProducts,
+                ValuesToFilter = null,
+                Rows = rows
+            };
+        }
+
         public async Task<ProductsResponse> GetAllPaginated(Filter filter, string userGuid, bool logged)
         {
             //var user = await UserRepository.GetAsync(userGuid);

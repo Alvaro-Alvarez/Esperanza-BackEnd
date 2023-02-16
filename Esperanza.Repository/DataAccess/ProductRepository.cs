@@ -327,6 +327,16 @@ namespace Esperanza.Repository.DataAccess
             return products;
         }
 
+        public async Task<List<ProductsSyncDTO>> GetAllRecommended(GetRecommended request)
+        {
+            List<ProductsSyncDTO> products;
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                products = (await db.QueryAsync<ProductsSyncDTO>(Product.GetAllRecommended, new { ProductCodes = request.ProductCodes })).ToList();
+            }
+            return products;
+        }
+
         public async Task<List<ProductsSyncDTO>> GetAlllNoLogged(Filter filter)
         {
             List<ProductsSyncDTO> products;

@@ -10,5 +10,7 @@
         public string? ConditionsControllerResto { get; set; }
         public string? ListDinController { get; set; }
         public string? SemaphoreController { get; set; }
+        public string? RecommendedController { get; set; }
+        public string? EstadoPedidosController { get; set; }
     }
 }

@@ -9,5 +9,6 @@ namespace Esperanza.Core.Interfaces.Business
         Task<ProductsResponse> GetAllByLaboratory(GetByLaboratory filter, string userGuid, bool logged);
         Task<ProductsSyncResponseDTO> GetById(string guid, bool logged, string userGuid);
         Task<ProductsResponse> GetAllPaginated(Filter filter, string userGuid, bool logged);
+        Task<ProductsResponse> GetAllRecommended(GetRecommended request);
     }
 }

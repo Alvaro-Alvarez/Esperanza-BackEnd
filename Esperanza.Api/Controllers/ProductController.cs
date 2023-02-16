@@ -40,5 +40,11 @@ namespace Esperanza.Api.Controllers
         {
             return Ok(await _productService.GetAllByLaboratory(filter, User.Identity.Name, User.Identity.Name != null));
         }
+
+        [HttpPost("GetAllRecommended")]
+        public async Task<ActionResult> GetAllRecommended(GetRecommended request)
+        {
+            return Ok(await _productService.GetAllRecommended(request));
+        }
     }
 }
