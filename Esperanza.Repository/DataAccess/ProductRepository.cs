@@ -480,6 +480,7 @@ namespace Esperanza.Repository.DataAccess
                     ROW_COUNT = product.ROW_COUNT,
                     CONDICION = product.CONDICION,
                     PRECIO = price?.ToString(),
+                    PRECIO_ESP = product.PRECIO_NL1,
                     LOGGED = noLogged ? false : true
                 });
             }

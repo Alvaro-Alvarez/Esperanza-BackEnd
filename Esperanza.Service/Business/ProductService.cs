@@ -100,7 +100,7 @@ namespace Esperanza.Service.Business
             if (logged) products = await ProductRepository.GetAlll(filter, user.BasClientCode);
             else products = await ProductRepository.GetAlllNoLogged(filter);
             var rows = products.Count();
-            var paginationProducts = products.GetRange(filter.Start.HasValue ? filter.Start.Value : 0, 10);
+            var paginationProducts = products.GetRange(filter.Start.HasValue ? filter.Start.Value : 0, products.Count() >= 10 ? 10 : products.Count());
             var cleanProducts = await ProductRepository.GetProductsWithUpdatePrices(paginationProducts, !logged);
             var valsToFilter = await ProductRepository.FillValuesToFilter(products);
             if (filter.WithSemaphore.HasValue && filter.WithSemaphore.Value) await FillSemaphore(cleanProducts);

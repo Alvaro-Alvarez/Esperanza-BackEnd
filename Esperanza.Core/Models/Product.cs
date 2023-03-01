@@ -56,6 +56,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
                         priceList.PRECIO_NL,
+                        priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
                         FROM CustomerConditionSync condition
                         INNER JOIN PriceListSync priceList ON priceList.CODLIS = condition.CODLIS
@@ -115,6 +116,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
                         priceList.PRECIO_NL,
+                        priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
                         FROM CustomerConditionSync condition
                         INNER JOIN PriceListSync priceList ON priceList.CODLIS = condition.CODLIS
@@ -183,6 +185,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
                         priceList.PRECIO_NL,
+                        priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
                         FROM CustomerConditionSync condition
                         INNER JOIN PriceListSync priceList ON priceList.CODLIS = condition.CODLIS
@@ -256,6 +259,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
                         priceList.PRECIO_NL,
+                        priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
                         FROM CustomerConditionSync condition
                         INNER JOIN PriceListSync priceList ON priceList.CODLIS = condition.CODLIS
@@ -329,6 +333,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
                         priceList.PRECIO_NL,
+                        priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
                         FROM CustomerConditionSync condition
                         INNER JOIN PriceListSync priceList ON priceList.CODLIS = condition.CODLIS
@@ -416,6 +421,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
                         priceList.PRECIO_NL,
+                        priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
                         FROM CustomerConditionSync condition
                         INNER JOIN PriceListSync priceList ON priceList.CODLIS = condition.CODLIS
@@ -489,6 +495,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
                         priceList.PRECIO_NL,
+                        priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
                         FROM CustomerConditionSync condition
                         INNER JOIN PriceListSync priceList ON priceList.CODLIS = condition.CODLIS

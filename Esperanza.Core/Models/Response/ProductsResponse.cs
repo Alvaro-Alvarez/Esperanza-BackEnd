@@ -88,6 +88,7 @@ namespace Esperanza.Core.Models.Response
         public string PRECIO_N { get; set; }
         public string PRECIO_O { get; set; }
         public string PRECIO_NL { get; set; }
+        public string PRECIO_NL1 { get; set; }
         public string CONDICION { get; set; }
         public int ROW_COUNT { get; set; }
     }
@@ -121,6 +122,7 @@ namespace Esperanza.Core.Models.Response
         public string FECHAREG { get; set; }
         public string FOTO { get; set; }
         public string PRECIO { get; set; }
+        public string PRECIO_ESP { get; set; }
         public bool LOGGED { get; set; }
         public string CONDICION { get; set; }
         public int ROW_COUNT { get; set; }
