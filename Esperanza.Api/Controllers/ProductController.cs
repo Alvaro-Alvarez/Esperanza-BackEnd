@@ -46,5 +46,11 @@ namespace Esperanza.Api.Controllers
         {
             return Ok(await _productService.GetAllRecommended(request));
         }
+
+        [HttpPost("GetImagesByCodes")]
+        public async Task<ActionResult> GetImagesByCodes(GetRecommended request)
+        {
+            return Ok(await _productService.GetImagesByCodes(request));
+        }
     }
 }

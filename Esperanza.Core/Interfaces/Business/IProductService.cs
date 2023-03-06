@@ -10,5 +10,6 @@ namespace Esperanza.Core.Interfaces.Business
         Task<ProductsSyncResponseDTO> GetById(string guid, bool logged, string userGuid);
         Task<ProductsResponse> GetAllPaginated(Filter filter, string userGuid, bool logged);
         Task<ProductsResponse> GetAllRecommended(GetRecommended request);
+        Task<List<string>> GetImagesByCodes(GetRecommended request);
     }
 }

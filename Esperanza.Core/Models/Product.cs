@@ -338,7 +338,7 @@ namespace Esperanza.Core.Models
                         FROM CustomerConditionSync condition
                         INNER JOIN PriceListSync priceList ON priceList.CODLIS = condition.CODLIS
                         INNER JOIN PropductSync product ON product.CODIGO = priceList.CODITM
-                        WHERE product.Deleted = 0 AND product.ACTIVO = 1 AND product.CODIGO IN @ProductCodes
+                        WHERE product.Deleted = 0 AND product.ACTIVO = 1 AND product.CODIGO IN @ProductCodes AND condition.COLUMNA = 'PRECIO_A'
                         ORDER BY product.NOMBRE";
             }
         }
@@ -541,6 +541,15 @@ namespace Esperanza.Core.Models
                         AND (@Especie IS NULL OR product.ESPECIE IN @Especie)
                         AND (@ViaAdministracion IS NULL OR product.VIA_ADMINISTRACION IN @ViaAdministracion)
                         @ConditionFilter";
+            }
+        }
+
+        [Description("ignore")]
+        public static string GetImagesByCodes
+        {
+            get
+            {
+                return @"select distinct ENLACE from PropductSync where CODIGO in @Codes;";
             }
         }
     }

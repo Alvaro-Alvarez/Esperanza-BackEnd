@@ -23,5 +23,6 @@ namespace Esperanza.Core.Interfaces.DataAccess
         Task<List<ProductsSyncResponseDTO>> GetProductsWithUpdatePrices(List<ProductsSyncDTO> products, bool noLogged = false);
         Task<ValuesToFilter> FillValuesToFilter(List<ProductsSyncDTO> products);
         Task<List<ProductsSyncDTO>> GetAllRecommended(GetRecommended request);
+        Task<List<string>> GetImagesByCodes(GetRecommended request);
     }
 }

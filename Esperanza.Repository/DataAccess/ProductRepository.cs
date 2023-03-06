@@ -13,7 +13,7 @@ namespace Esperanza.Repository.DataAccess
     public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         private readonly IConnectionBuilder ConnectionBuilder;
-        private readonly string NoLoggedColumn = "PRECIO_NL";
+        private readonly string NoLoggedColumn = "PRECIO_NL1";
 
         public ProductRepository(
             IConnectionBuilder connectionBuilder
@@ -362,6 +362,17 @@ namespace Esperanza.Repository.DataAccess
             return products;
         }
 
+        public async Task<List<string>> GetImagesByCodes(GetRecommended request)
+        {
+            var codes = request.ProductCodes.Distinct().ToList();
+            List<string> images;
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                images = (await db.QueryAsync<string>(Product.GetImagesByCodes, new { Codes = codes })).ToList();
+            }
+            return images;
+        }
+
         #region Private Methods
         public async Task<ValuesToFilter> FillValuesToFilter(List<ProductsSyncDTO> products)
         {
@@ -480,7 +491,7 @@ namespace Esperanza.Repository.DataAccess
                     ROW_COUNT = product.ROW_COUNT,
                     CONDICION = product.CONDICION,
                     PRECIO = price?.ToString(),
-                    PRECIO_ESP = product.PRECIO_NL1,
+                    PRECIO_ESP = product.PRECIO_NL,
                     LOGGED = noLogged ? false : true
                 });
             }

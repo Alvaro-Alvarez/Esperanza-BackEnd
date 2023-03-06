@@ -67,6 +67,11 @@ namespace Esperanza.Service.Business
             };
         }
 
+        public async Task<List<string>> GetImagesByCodes(GetRecommended request)
+        {
+            return await ProductRepository.GetImagesByCodes(request);
+        }
+        
         public async Task<ProductsResponse> GetAllPaginated(Filter filter, string userGuid, bool logged)
         {
             //var user = await UserRepository.GetAsync(userGuid);
