@@ -9,6 +9,7 @@
         Task<T> GetAsync(string id);
         Task<int> SaveRangeAsync(IEnumerable<T> list);
         Task UpdateAsync(T t);
+        Task UpdateRangeAsync(List<T> ts);
         Task InsertAsync(T t);
         Task<int> GetLastId();
         Task<T> GetByName(string name);
@@ -20,5 +21,6 @@
         Task<IEnumerable<string>> GetPriceListCodes();
         Task<IEnumerable<string>> GetTransportCodes();
         Task SoftDelete(string id);
+        Task DeleteAll(string query);
     }
 }

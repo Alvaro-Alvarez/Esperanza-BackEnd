@@ -22,7 +22,8 @@ namespace Esperanza.Core.Interfaces.DataAccess
         Task<List<ProductsSyncDTO>> GetAlll(Filter filter, string clientCode);
         Task<List<ProductsSyncResponseDTO>> GetProductsWithUpdatePrices(List<ProductsSyncDTO> products, bool noLogged = false);
         Task<ValuesToFilter> FillValuesToFilter(List<ProductsSyncDTO> products);
-        Task<List<ProductsSyncDTO>> GetAllRecommended(GetRecommended request);
+        Task<List<ProductsSyncDTO>> GetAllRecommended(GetRecommended request, string clientCode);
         Task<List<string>> GetImagesByCodes(GetRecommended request);
+        Task<List<ProductsSyncDTO>> GetByVademecumFilter(VademecumFilter filter, string clientCode);
     }
 }

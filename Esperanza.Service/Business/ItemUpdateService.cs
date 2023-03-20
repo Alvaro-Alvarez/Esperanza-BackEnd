@@ -5,6 +5,7 @@ using Esperanza.Core.Interfaces.DataAccess;
 using Esperanza.Core.Models.Options;
 using Esperanza.Core.Models.Services;
 using Esperanza.Core.Models.Sync;
+using Esperanza.Core.Options;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
@@ -14,6 +15,7 @@ namespace Esperanza.Service.Business
     public class ItemUpdateService : IItemUpdateService
     {
         private readonly ServicesOption _servicesOption;
+        private readonly ServiceUpdateOptions _serviceUpdateOptions;
         private readonly IMapper _mapper;
         private readonly IGenericRepository<PropductSync> _propductSyncRepository;
         private readonly IGenericRepository<CustomerSync> _customerSyncRepository;
@@ -22,6 +24,7 @@ namespace Esperanza.Service.Business
 
         public ItemUpdateService(
             IOptions<ServicesOption> servicesOption,
+            IOptions<ServiceUpdateOptions> serviceUpdateOptions,
             IMapper mapper,
             IGenericRepository<PropductSync> propductSyncRepository,
             IGenericRepository<CustomerSync> customerSyncRepository,
@@ -30,6 +33,7 @@ namespace Esperanza.Service.Business
             )
         {
             _servicesOption = servicesOption.Value;
+            _serviceUpdateOptions = serviceUpdateOptions.Value;
             _propductSyncRepository = propductSyncRepository;
             _customerSyncRepository = customerSyncRepository;
             _customerConditionSyncRepository = customerConditionSyncRepository;
@@ -39,20 +43,21 @@ namespace Esperanza.Service.Business
 
         public async Task UpdateProducts()
         {
-            //TODO: Tomar el campo "ACTUALIZADO" para ver si actualizar el item o no, tambien llamar el endpoint final para decirle que ya fueron actualizados.
-            const int maxItems = 4200;
-            const int itemsPerPage = 300;
-            int init = 1;
+            var endOfItems = false;
+            var start = _serviceUpdateOptions.StartPagination;
             var items = new List<Item>();
-            for (int i = 0; i < maxItems; i = i + itemsPerPage)
+            while (!endOfItems)
             {
-                var setItems = await GetData<List<Item>>($"{_servicesOption.ItemsController}&PAGINA={itemsPerPage}&DESDE={init}");
-                items.AddRange(setItems);
-                init += itemsPerPage;
+                var setItems = await GetData<List<Item>>($"{_servicesOption.ItemsController}&PAGINA={_serviceUpdateOptions.ProductRange}&DESDE={start}");
+                endOfItems = setItems == null || setItems.Count() == 0;
+                if (!endOfItems) items.AddRange(setItems);
+                start += _serviceUpdateOptions.ProductRange;
             }
             var insertedCodes = (await _propductSyncRepository.GetProductCodes()).ToList();
             var recordToInsert = GetRecordToInsert(items, insertedCodes, SyncCodeConstant.Product);
+            var recordToUpdate = GetProductsToUpdate(items, insertedCodes);
             var recordToRemove = insertedCodes.Except(items.Select(i => i.CODIGO)).ToList();
+            var itemsToUpdate = _mapper.Map<List<PropductSync>>(recordToUpdate);
             var itemsToSave = _mapper.Map<List<PropductSync>>(recordToInsert);
             itemsToSave.ForEach(item =>
             {
@@ -61,23 +66,9 @@ namespace Esperanza.Service.Business
                 item.CreatedBy = Guid.Empty;
             });
             await _propductSyncRepository.SaveRangeAsync(itemsToSave);
+            await _propductSyncRepository.UpdateRangeAsync(itemsToUpdate);
             await _propductSyncRepository.DeleteRowsRange(recordToRemove, SyncCodeConstant.Product);
-
-            ////TODO: Tomar el campo "ACTUALIZADO" para ver si actualizar el item o no, tambien llamar el endpoint final para decirle que ya fueron actualizados.
-            //var items = await GetData<List<Item>>(_servicesOption.ItemsController);
-            //var insertedCodes = (await _propductSyncRepository.GetProductCodes()).ToList();
-            //var recordToInsert = GetRecordToInsert(items, insertedCodes, SyncCodeConstant.Product);
-            //var recordToRemove = insertedCodes.Except(items.Select(i => i.CODIGO)).ToList();
-            //var itemsToSave = _mapper.Map<List<PropductSync>>(recordToInsert);
-            //itemsToSave.ForEach(item =>
-            //{
-            //    item.Guid = Guid.NewGuid();
-            //    item.CreatedAt = DateTime.Now;
-            //    item.CreatedBy = Guid.Empty;
-            //});
-            //await _propductSyncRepository.SaveRangeAsync(itemsToSave);
-            //await _propductSyncRepository.DeleteRowsRange(recordToRemove, SyncCodeConstant.Product);
-
+            //TODO: Llamar endpoint para decir q se actualizaron los productos
         }
 
         public async Task UpdateCtaCte()
@@ -99,15 +90,36 @@ namespace Esperanza.Service.Business
 
         public async Task UpdateConditions()
         {
-            //TODO: Ver cuando y como eliminar
-            List<Condition> recordToInsert = new List<Condition>();
-            var itemsCcb = await GetData<List<Condition>>(_servicesOption.ConditionsControllerCcb);
-            var itemsCcm = await GetData<List<Condition>>(_servicesOption.ConditionsControllerCcm);
-            //var itemsRest = await GetData<List<Condition>>(_servicesOption.ConditionsControllerResto);
+            var startCCM = _serviceUpdateOptions.StartPagination;
+            var startCCB = _serviceUpdateOptions.StartPagination;
+            var startRESTO = _serviceUpdateOptions.StartPagination;
+            var endOfItemsCCM = false;
+            var endOfItemsCCB = false;
+            var endOfItemsRESTO = false;
             var items = new List<Condition>();
-            items.AddRange(itemsCcb);
-            items.AddRange(itemsCcm);
-            //items.AddRange(itemsRest);
+            var recordToInsert = new List<Condition>();
+
+            while (!endOfItemsCCM)
+            {
+                var itemsCcm = await GetData<List<Condition>>($"{_servicesOption.ConditionsControllerCcm}&PAGINA={_serviceUpdateOptions.PriceListRange}&DESDE={startCCM}");
+                endOfItemsCCM = itemsCcm == null || itemsCcm.Count() == 0;
+                if (!endOfItemsCCM) items.AddRange(itemsCcm);
+                startCCM += _serviceUpdateOptions.PriceListRange;
+            }
+            while (!endOfItemsCCB)
+            {
+                var itemsCcb = await GetData<List<Condition>>($"{_servicesOption.ConditionsControllerCcb}&PAGINA={_serviceUpdateOptions.PriceListRange}&DESDE={startCCB}");
+                endOfItemsCCB = itemsCcb == null || itemsCcb.Count() == 0;
+                if (!endOfItemsCCB) items.AddRange(itemsCcb);
+                startCCB += _serviceUpdateOptions.PriceListRange;
+            }
+            while (!endOfItemsRESTO)
+            {
+                var itemsRest = await GetData<List<Condition>>($"{_servicesOption.ConditionsControllerResto}&PAGINA={_serviceUpdateOptions.PriceListRange}&DESDE={startRESTO}");
+                endOfItemsRESTO = itemsRest == null || itemsRest.Count() == 0;
+                if (!endOfItemsRESTO) items.AddRange(itemsRest);
+                startRESTO += _serviceUpdateOptions.PriceListRange;
+            }
 
             var customerConditions = await _customerConditionSyncRepository.GetAllAsync();
 
@@ -147,7 +159,33 @@ namespace Esperanza.Service.Business
             await _priceListSyncRepository.DeleteRowsRange(recordToRemove, SyncCodeConstant.Price);
         }
 
+        public async Task RestartServices(string password)
+        {
+            if (password != _serviceUpdateOptions.RestarPassword) throw new Exception("La contraseña es inválida");
+            await _propductSyncRepository.DeleteAll(PropductSync.DeleteAll);
+            await _propductSyncRepository.DeleteAll(CustomerSync.DeleteAll);
+            await _propductSyncRepository.DeleteAll(CustomerConditionSync.DeleteAll);
+            await _propductSyncRepository.DeleteAll(PriceListSync.DeleteAll);
+            await UpdateProducts();
+            await UpdateCtaCte();
+            await UpdateConditions();
+            await UpdateLists();
+        }
+
         #region Private Methods
+        private List<Item> GetProductsToUpdate(List<Item> items, List<string> insertedCodes)
+        {
+            var newItems = new List<Item>();
+            foreach (var item in items)
+            {
+                if (item.ACTUALIZADO == "1")
+                {
+                    if (insertedCodes.Contains(item.CODIGO)) newItems.Add(item);
+                }
+            }
+            return newItems;
+
+        }
         private List<T> GetRecordToInsert<T>(List<T> allRecords, List<string> insertedCodes, string prop) where T : new()
         {
             List<T> items = new List<T>();

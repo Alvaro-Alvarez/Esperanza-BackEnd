@@ -44,7 +44,13 @@ namespace Esperanza.Api.Controllers
         [HttpPost("GetAllRecommended")]
         public async Task<ActionResult> GetAllRecommended(GetRecommended request)
         {
-            return Ok(await _productService.GetAllRecommended(request));
+            return Ok(await _productService.GetAllRecommended(request, User.Identity.Name));
+        }
+
+        [HttpPost("GetByVademecumFilter")]
+        public async Task<ActionResult> GetByVademecumFilter([FromBody]  VademecumFilter filter)
+        {
+            return Ok(await _productService.GetByVademecumFilter(filter, User.Identity.Name));
         }
 
         [HttpPost("GetImagesByCodes")]

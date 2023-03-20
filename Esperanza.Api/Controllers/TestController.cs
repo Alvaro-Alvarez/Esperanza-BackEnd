@@ -74,19 +74,19 @@ namespace Esperanza.Api.Controllers
             }
         }
 
-        //[HttpGet]
-        //[Route("UpdateTransport")]
-        //public async Task<ActionResult> UpdateTransport()
-        //{
-        //    try
-        //    {
-        //        await ItemUpdateService.UpdateTranspors();
-        //        return Ok();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest($"Mensaje -->: {e.Message} | StackTrece -->: {e.StackTrace}");
-        //    }
-        //}
+        [HttpGet]
+        [Route("RestartServices")]
+        public async Task<ActionResult> RestartServices(string password)
+        {
+            try
+            {
+                await ItemUpdateService.RestartServices(password);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Mensaje -->: {e.Message} | StackTrece -->: {e.StackTrace}");
+            }
+        }
     }
 }

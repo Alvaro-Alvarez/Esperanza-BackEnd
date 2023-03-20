@@ -1,4 +1,6 @@
-﻿namespace Esperanza.Core.Models.Sync
+﻿using System.ComponentModel;
+
+namespace Esperanza.Core.Models.Sync
 {
     public class CustomerSync : Entity
     {
@@ -19,5 +21,15 @@
         public string CODPAIS { get; set; }
         public string CODPOS { get; set; }
         public string TELEFONO { get; set; }
+
+
+        [Description("ignore")]
+        public static string DeleteAll
+        {
+            get
+            {
+                return @"delete from CustomerSync;";
+            }
+        }
     }
 }

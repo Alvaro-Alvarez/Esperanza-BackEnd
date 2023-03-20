@@ -53,6 +53,8 @@ builder.Services.Configure<BASApiOptions>(builder.Configuration.GetSection("BASA
 builder.Services.Configure<ServicesOption>(builder.Configuration.GetSection("Services"));
 builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("EmailOptions"));
 builder.Services.Configure<OrderServiceOptions>(builder.Configuration.GetSection("OrderService"));
+builder.Services.Configure<ServiceUpdateOptions>(builder.Configuration.GetSection("ServiceUpdateOptions"));
+builder.Services.Configure<VademecumFilterOptions>(builder.Configuration.GetSection("VademecumFilter"));
 #endregion
 
 #region Config Hangfire
@@ -75,20 +77,6 @@ builder.Services.AddCors(options =>
         .AllowCredentials());
 });
 #endregion
-
-//#region Max Length Resquest Body
-//builder.Services.Configure<IISServerOptions>(options =>
-//{
-//    options.MaxRequestBodySize = int.MaxValue;
-//});
-//builder.Services.Configure<FormOptions>(x =>
-//{
-//    x.ValueLengthLimit = int.MaxValue;
-//    x.MultipartBodyLengthLimit = int.MaxValue;
-//    x.MultipartHeadersLengthLimit = int.MaxValue;
-//});
-
-//#endregion
 
 var app = builder.Build();
 

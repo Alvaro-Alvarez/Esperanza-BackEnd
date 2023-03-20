@@ -327,12 +327,37 @@ namespace Esperanza.Repository.DataAccess
             return products;
         }
 
-        public async Task<List<ProductsSyncDTO>> GetAllRecommended(GetRecommended request)
+        public async Task<List<ProductsSyncDTO>> GetAllRecommended(GetRecommended request, string clientCode)
         {
             List<ProductsSyncDTO> products;
             using (IDbConnection db = ConnectionBuilder.GetConnection())
             {
-                products = (await db.QueryAsync<ProductsSyncDTO>(Product.GetAllRecommended, new { ProductCodes = request.ProductCodes })).ToList();
+                products = (await db.QueryAsync<ProductsSyncDTO>(Product.GetAllRecommended, new { ProductCodes = request.ProductCodes, ClientCode = clientCode })).ToList();
+            }
+            return products;
+        }
+
+        public async Task<List<ProductsSyncDTO>> GetByVademecumFilter(VademecumFilter filter, string clientCode)
+        {
+            List<ProductsSyncDTO> products;
+            if (filter.Condiciones.Count == 0)
+            {
+                filter.Condiciones.Add("CCM");
+                filter.Condiciones.Add("CCB");
+            }
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                products = db.Query<ProductsSyncDTO>("GetProductsByVademecumFilter", new
+                {
+                    Condiciones = string.Join(",", filter.Condiciones),
+                    ClientCode = clientCode,
+                    Logged = clientCode != "001",
+                    Start = filter.Start,
+                    Accion = filter.Accion,
+                    Especie = filter.Especie,
+                    Administracion = filter.Administracion,
+                    Droga = filter.Droga
+                }, commandType: CommandType.StoredProcedure).ToList();
             }
             return products;
         }

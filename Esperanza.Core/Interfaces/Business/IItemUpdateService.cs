@@ -6,5 +6,6 @@
         Task UpdateCtaCte();
         Task UpdateLists();
         Task UpdateConditions();
+        Task RestartServices(string password);
     }
 }

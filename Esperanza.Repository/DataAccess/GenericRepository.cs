@@ -82,6 +82,14 @@ namespace Esperanza.Repository.DataAccess
             }
         }
 
+        public virtual async Task DeleteAll(string query)
+        {
+            using (var connection = CreateConnection())
+            {
+                await connection.ExecuteAsync(query);
+            }
+        }
+
         public virtual async Task DeleteIntermediate(string idAd, string query)
         {
             using (var connection = CreateConnection())
@@ -169,6 +177,19 @@ namespace Esperanza.Repository.DataAccess
             }
         }
 
+
+        public virtual async Task UpdateRangeAsync(List<T> ts)
+        {
+            var updateQuery = GenerateUpdateQuery();
+
+            using (var connection = CreateConnection())
+            {
+                foreach (var t in ts)
+                {
+                    await connection.ExecuteAsync(updateQuery, t);
+                }
+            }
+        }
         public virtual async Task<int> GetLastId()
         {
             using (var connection = CreateConnection())

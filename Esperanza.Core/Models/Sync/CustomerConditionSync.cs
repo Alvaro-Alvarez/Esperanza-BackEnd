@@ -17,5 +17,14 @@ namespace Esperanza.Core.Models.Sync
                 return @"select * from CustomerConditionSync where CODCTACTE = @ClientCode AND CODCONDI = @Condition;";
             }
         }
+
+        [Description("ignore")]
+        public static string DeleteAll
+        {
+            get
+            {
+                return @"delete from CustomerConditionSync;";
+            }
+        }
     }
 }

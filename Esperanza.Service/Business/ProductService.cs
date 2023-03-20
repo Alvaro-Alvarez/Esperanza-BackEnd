@@ -54,16 +54,34 @@ namespace Esperanza.Service.Business
             };
         }
 
-        public async Task<ProductsResponse> GetAllRecommended(GetRecommended request)
+        public async Task<ProductsResponse> GetAllRecommended(GetRecommended request, string userGuid)
         {
-            var products = await ProductRepository.GetAllRecommended(request);
+            request.ProductCodes = request.ProductCodes.Distinct().ToList();
+            var user = string.IsNullOrEmpty(userGuid) ? null : await UserRepository.GetAsync(userGuid);
+            var products = await ProductRepository.GetAllRecommended(request, user != null ? user.BasClientCode : "001");
             var cleanProducts = await ProductRepository.GetProductsWithUpdatePrices(products, false);
+            await FillSemaphore(cleanProducts);
             var rows = products.Count();
             return new ProductsResponse()
             {
                 Products = cleanProducts,
                 ValuesToFilter = null,
                 Rows = rows
+            };
+        }
+
+        public async Task<ProductsResponse> GetByVademecumFilter(VademecumFilter filter, string userGuid)
+        {
+            var user = string.IsNullOrEmpty(userGuid) ? null : await UserRepository.GetAsync(userGuid);
+            var products = await ProductRepository.GetByVademecumFilter(filter, user != null ? user.BasClientCode : "001");
+            var cleanProducts = await ProductRepository.GetProductsWithUpdatePrices(products, false);
+            await FillSemaphore(cleanProducts);
+            var rows = products.FirstOrDefault()?.ROW_COUNT;
+            return new ProductsResponse()
+            {
+                Products = cleanProducts,
+                ValuesToFilter = null,
+                Rows = rows.HasValue ? rows.Value : 0
             };
         }
 

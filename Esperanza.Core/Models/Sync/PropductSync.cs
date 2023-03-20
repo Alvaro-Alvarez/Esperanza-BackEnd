@@ -1,4 +1,6 @@
-﻿namespace Esperanza.Core.Models.Sync
+﻿using System.ComponentModel;
+
+namespace Esperanza.Core.Models.Sync
 {
     public class PropductSync : Entity
     {
@@ -31,5 +33,15 @@
         public string OBS { get; set; }
         public string FECHAREG { get; set; }
         public string ENLACE { get; set; }
+
+
+        [Description("ignore")]
+        public static string DeleteAll
+        {
+            get
+            {
+                return @"delete from PropductSync;";
+            }
+        }
     }
 }

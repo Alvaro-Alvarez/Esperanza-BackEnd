@@ -338,7 +338,7 @@ namespace Esperanza.Core.Models
                         FROM CustomerConditionSync condition
                         INNER JOIN PriceListSync priceList ON priceList.CODLIS = condition.CODLIS
                         INNER JOIN PropductSync product ON product.CODIGO = priceList.CODITM
-                        WHERE product.Deleted = 0 AND product.ACTIVO = 1 AND product.CODIGO IN @ProductCodes AND condition.COLUMNA = 'PRECIO_A'
+                        WHERE product.Deleted = 0 AND product.ACTIVO = 1 AND product.CODIGO IN @ProductCodes AND condition.CODCTACTE = @ClientCode
                         ORDER BY product.NOMBRE";
             }
         }

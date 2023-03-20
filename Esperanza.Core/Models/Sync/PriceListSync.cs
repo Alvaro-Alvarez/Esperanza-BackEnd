@@ -1,4 +1,6 @@
-﻿namespace Esperanza.Core.Models.Sync
+﻿using System.ComponentModel;
+
+namespace Esperanza.Core.Models.Sync
 {
     public class PriceListSync : Entity
     {
@@ -24,5 +26,14 @@
         public string PRECIO_O { get; set; }
         public string PRECIO_NL { get; set; }
         public string PRECIO_NL1 { get; set; }
+
+        [Description("ignore")]
+        public static string DeleteAll
+        {
+            get
+            {
+                return @"delete from PriceListSync;";
+            }
+        }
     }
 }
