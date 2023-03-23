@@ -68,7 +68,8 @@ namespace Esperanza.Service.Business
             await _propductSyncRepository.SaveRangeAsync(itemsToSave);
             await _propductSyncRepository.UpdateRangeAsync(itemsToUpdate);
             await _propductSyncRepository.DeleteRowsRange(recordToRemove, SyncCodeConstant.Product);
-            //TODO: Llamar endpoint para decir q se actualizaron los productos
+            /*LLama a endpoint para avisar que todos los productos fueron actualizados*/
+            await GetData<object>(_servicesOption.NotifyUpdateController);
         }
 
         public async Task UpdateCtaCte()
@@ -101,24 +102,24 @@ namespace Esperanza.Service.Business
 
             while (!endOfItemsCCM)
             {
-                var itemsCcm = await GetData<List<Condition>>($"{_servicesOption.ConditionsControllerCcm}&PAGINA={_serviceUpdateOptions.PriceListRange}&DESDE={startCCM}");
+                var itemsCcm = await GetData<List<Condition>>($"{_servicesOption.ConditionsControllerCcm}&PAGINA={_serviceUpdateOptions.ConditionsRange}&DESDE={startCCM}");
                 endOfItemsCCM = itemsCcm == null || itemsCcm.Count() == 0;
                 if (!endOfItemsCCM) items.AddRange(itemsCcm);
-                startCCM += _serviceUpdateOptions.PriceListRange;
+                startCCM += _serviceUpdateOptions.ConditionsRange;
             }
             while (!endOfItemsCCB)
             {
-                var itemsCcb = await GetData<List<Condition>>($"{_servicesOption.ConditionsControllerCcb}&PAGINA={_serviceUpdateOptions.PriceListRange}&DESDE={startCCB}");
+                var itemsCcb = await GetData<List<Condition>>($"{_servicesOption.ConditionsControllerCcb}&PAGINA={_serviceUpdateOptions.ConditionsRange}&DESDE={startCCB}");
                 endOfItemsCCB = itemsCcb == null || itemsCcb.Count() == 0;
                 if (!endOfItemsCCB) items.AddRange(itemsCcb);
-                startCCB += _serviceUpdateOptions.PriceListRange;
+                startCCB += _serviceUpdateOptions.ConditionsRange;
             }
             while (!endOfItemsRESTO)
             {
-                var itemsRest = await GetData<List<Condition>>($"{_servicesOption.ConditionsControllerResto}&PAGINA={_serviceUpdateOptions.PriceListRange}&DESDE={startRESTO}");
+                var itemsRest = await GetData<List<Condition>>($"{_servicesOption.ConditionsControllerResto}&PAGINA={_serviceUpdateOptions.ConditionsRange}&DESDE={startRESTO}");
                 endOfItemsRESTO = itemsRest == null || itemsRest.Count() == 0;
                 if (!endOfItemsRESTO) items.AddRange(itemsRest);
-                startRESTO += _serviceUpdateOptions.PriceListRange;
+                startRESTO += _serviceUpdateOptions.ConditionsRange;
             }
 
             var customerConditions = await _customerConditionSyncRepository.GetAllAsync();

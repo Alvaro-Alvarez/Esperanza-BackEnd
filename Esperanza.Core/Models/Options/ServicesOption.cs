@@ -12,5 +12,6 @@
         public string? SemaphoreController { get; set; }
         public string? RecommendedController { get; set; }
         public string? EstadoPedidosController { get; set; }
+        public string? NotifyUpdateController { get; set; }
     }
 }
