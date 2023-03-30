@@ -471,6 +471,8 @@ namespace Esperanza.Repository.DataAccess
                     Quantity = filterProducts.Count()
                 });
             });
+            if (itemFilters.Any(i => i == null))
+                itemFilters = itemFilters.Where(i => i != null).ToList();
             return Tuple.Create(itemFilters.OrderBy(i => i.Value).ToList(), itemFilters.Count > 0);
         }
 
