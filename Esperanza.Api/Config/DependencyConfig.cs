@@ -30,6 +30,7 @@ namespace Esperanza.Api.Config
             services.AddSingleton<ICarouselService, CarouselService>();
             services.AddSingleton<IPromotionalVideoService, PromotionalVideoService>();
             services.AddSingleton<ILaboratoryService, LaboratoryService>();
+            services.AddSingleton<IContactService, ContactService>();
             #endregion
 
             #region Repositories

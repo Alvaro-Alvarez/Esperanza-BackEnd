@@ -11,7 +11,7 @@ namespace Esperanza.Core.Models
 
         public string? Subject { get; set; }
         public string? Template { get; set; }
-        public int? IdType { get; set; }
+        public Guid? IdType { get; set; }
 
         [Description("ignore")]
         public List<EmailKeys>? EmailKeys { get; set; }
@@ -22,7 +22,9 @@ namespace Esperanza.Core.Models
         {
             get
             {
-                return @"SELECT * FROM EmailTemplate WHERE name = @EmailType AND Deleted = false;";
+                return @"SELECT et.* FROM EmailType eType
+                        INNER JOIN EmailTemplate et on et.IdType = eType.Guid
+                        WHERE eType.[name] = @EmailType AND eType.Deleted = 0;";
             }
         }
     }

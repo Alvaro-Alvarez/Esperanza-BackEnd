@@ -6,7 +6,7 @@ namespace Esperanza.Core.Models
     {
         public string? Key { get; set; }
         public string? FieldNameValue { get; set; }
-        public string? IdTemplate { get; set; }
+        public Guid? IdTemplate { get; set; }
 
         [Description("ignore")]
         public static string GetKeyByTemplateId

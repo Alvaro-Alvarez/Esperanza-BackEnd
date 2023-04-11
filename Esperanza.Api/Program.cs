@@ -55,6 +55,7 @@ builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("Email
 builder.Services.Configure<OrderServiceOptions>(builder.Configuration.GetSection("OrderService"));
 builder.Services.Configure<ServiceUpdateOptions>(builder.Configuration.GetSection("ServiceUpdateOptions"));
 builder.Services.Configure<VademecumFilterOptions>(builder.Configuration.GetSection("VademecumFilter"));
+builder.Services.Configure<EsperanzaLocations>(builder.Configuration.GetSection("EsperanzaLocations"));
 #endregion
 
 #region Config Hangfire
