@@ -5,6 +5,8 @@ using Esperanza.Core.Options;
 using Microsoft.Extensions.Options;
 using System.Net.Mail;
 using System.Net;
+using Esperanza.Core.Logs;
+using Newtonsoft.Json;
 
 namespace Esperanza.Service.Business
 {
@@ -13,15 +15,18 @@ namespace Esperanza.Service.Business
         private readonly IEmailTemplateRepository _emailTemplateRepository;
         private readonly IEmailKeysRepository _emailKeysRepository;
         private readonly EmailOptions EmailSettings;
+        private readonly Logs LogsSettings;
 
         public EmailService(
             IEmailTemplateRepository emailTemplateRepository,
             IEmailKeysRepository emailKeysRepository,
-            IOptions<EmailOptions> emailSettings)
+            IOptions<EmailOptions> emailSettings,
+            IOptions<Logs> logsSettings)
         {
             EmailSettings = emailSettings.Value;
             _emailTemplateRepository = emailTemplateRepository;
             _emailKeysRepository = emailKeysRepository;
+            LogsSettings = logsSettings.Value;
         }
 
         public async Task<bool> SendMail(string emailType, Dictionary<string, string> values, List<string> tos)
@@ -29,7 +34,9 @@ namespace Esperanza.Service.Business
             var template = await GetEmailTemplateByType(emailType);
             var mail = new MailMessage();
             mail.From = new MailAddress(EmailSettings.From, EmailSettings.Name);
-            mail.To.Add(new MailAddress(tos.FirstOrDefault()));
+            //mail.To.Add(new MailAddress(tos.FirstOrDefault()));
+            foreach (var to in tos)
+                mail.To.Add(new MailAddress(to));
             mail.Subject = template.Subject;
             mail.Body = GetFullTemplateHtml(template, values);
             mail.IsBodyHtml = true;
@@ -37,7 +44,7 @@ namespace Esperanza.Service.Business
             SmtpClient client = new SmtpClient(EmailSettings.Host, EmailSettings.Port.Value);
             client.Credentials = new NetworkCredential(EmailSettings.From, EmailSettings.Password);
             client.EnableSsl = true;
-
+            Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(mail), prefix: "Antes de enviar mail --> ");
             client.Send(mail);
             return true;
 

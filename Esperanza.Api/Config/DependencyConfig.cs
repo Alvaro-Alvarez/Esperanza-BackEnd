@@ -56,6 +56,7 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IPageTypeRepository, PageTypeRepository>();
             services.AddSingleton<IVideoRepository, VideoRepository>();
             services.AddSingleton<IImageRepository, ImageRepository>();
+            services.AddSingleton<IErrorsRepository, ErrorsRepository>();
 
             #endregion
 

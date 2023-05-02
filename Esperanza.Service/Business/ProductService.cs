@@ -92,32 +92,7 @@ namespace Esperanza.Service.Business
         
         public async Task<ProductsResponse> GetAllPaginated(Filter filter, string userGuid, bool logged)
         {
-            //var user = await UserRepository.GetAsync(userGuid);
-            //var products = await ProductRepository.GetAllPaginatedNew(filter, logged, user != null ? user.BasClientCode : null);
-            //var valuesToFilter = await ProductRepository.GetValuesToFilterNew(filter, logged, user != null ? user.BasClientCode : null);
-            //var rows = products.Count > 0 ? products.FirstOrDefault().ROW_COUNT : 0;
-            //if (filter.WithSemaphore.HasValue && filter.WithSemaphore.Value) await FillSemaphore(products);
-            //return new ProductsResponse()
-            //{
-            //    Products = products,
-            //    ValuesToFilter = valuesToFilter,
-            //    Rows = rows
-            //};
-
-            //var products = new List<ProductsSyncResponseDTO>();
-            //var user = new AppUser();
-            //if (logged) user = await UserRepository.GetAsync(userGuid);
-            //if (logged) products = await ProductRepository.GetAllPaginated(filter, user.BasClientCode);
-            //else products = await ProductRepository.GetAllNoLoggedPaginated(filter);
-            //if (filter.WithSemaphore.HasValue && filter.WithSemaphore.Value) await FillSemaphore(products);
-            //return new ProductsResponse()
-            //{
-            //    Products = products,
-            //    ValuesToFilter = logged ? await ProductRepository.GetValuesToFilter(filter, user.BasClientCode) : await ProductRepository.GetValuesToFilterNoLogged(filter),
-            //    Rows = logged ? await ProductRepository.GetCount(user.BasClientCode, filter) : await ProductRepository.GetNoLoggedCount(filter)
-            //};
-
-            var products = new List<ProductsSyncDTO>();
+            List<ProductsSyncDTO>? products;
             var user = new AppUser();
             if (logged) user = await UserRepository.GetAsync(userGuid);
             if (logged) products = await ProductRepository.GetAlll(filter, user.BasClientCode);

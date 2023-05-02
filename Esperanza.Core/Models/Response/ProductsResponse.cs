@@ -87,6 +87,7 @@ namespace Esperanza.Core.Models.Response
         public string PRECIO_M { get; set; }
         public string PRECIO_N { get; set; }
         public string PRECIO_O { get; set; }
+        public string PRECIO_SP { get; set; }
         public string PRECIO_NL { get; set; }
         public string PRECIO_NL1 { get; set; }
         public string CONDICION { get; set; }

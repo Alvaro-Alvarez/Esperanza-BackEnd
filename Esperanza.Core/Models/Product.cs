@@ -55,6 +55,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_M,
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
+                        priceList.PRECIO_SP,
                         priceList.PRECIO_NL,
                         priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
@@ -115,6 +116,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_M,
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
+                        priceList.PRECIO_SP,
                         priceList.PRECIO_NL,
                         priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
@@ -184,6 +186,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_M,
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
+                        priceList.PRECIO_SP,
                         priceList.PRECIO_NL,
                         priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
@@ -258,6 +261,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_M,
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
+                        priceList.PRECIO_SP,
                         priceList.PRECIO_NL,
                         priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
@@ -332,6 +336,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_M,
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
+                        priceList.PRECIO_SP,
                         priceList.PRECIO_NL,
                         priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
@@ -420,6 +425,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_M,
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
+                        priceList.PRECIO_SP,
                         priceList.PRECIO_NL,
                         priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
@@ -494,6 +500,7 @@ namespace Esperanza.Core.Models
                         priceList.PRECIO_M,
                         priceList.PRECIO_N,
                         priceList.PRECIO_O,
+                        priceList.PRECIO_SP,
                         priceList.PRECIO_NL,
                         priceList.PRECIO_NL1,
                         condition.CODCONDI AS CONDICION
