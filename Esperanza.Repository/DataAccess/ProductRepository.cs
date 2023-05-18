@@ -330,6 +330,7 @@ namespace Esperanza.Repository.DataAccess
         public async Task<List<ProductsSyncDTO>> GetAllRecommended(GetRecommended request, string clientCode)
         {
             List<ProductsSyncDTO> products;
+            //var asd = string.Join(", ", request.ProductCodes);
             using (IDbConnection db = ConnectionBuilder.GetConnection())
             {
                 products = (await db.QueryAsync<ProductsSyncDTO>(Product.GetAllRecommended, new { ProductCodes = request.ProductCodes, ClientCode = clientCode })).ToList();
@@ -403,41 +404,41 @@ namespace Esperanza.Repository.DataAccess
         {
             var marcas = products.Where(p => !string.IsNullOrEmpty(p.MARCA)).Select(p => p.MARCA).Distinct().ToList();
             var proveedores = products.Where(p => !string.IsNullOrEmpty(p.PROVEEDOR)).Select(p => p.PROVEEDOR).Distinct().ToList();
-            //var subrubros = products.Where(p => !string.IsNullOrEmpty(p.SUBRUBRO)).Select(p => p.SUBRUBRO).Distinct().ToList();
-            //var vademecums = products.Where(p => !string.IsNullOrEmpty(p.VADEMECUM)).Select(p => p.VADEMECUM).Distinct().ToList();
-            //var tipos = products.Where(p => !string.IsNullOrEmpty(p.TIPO)).Select(p => p.TIPO).Distinct().ToList();
-            //var laboratorios = products.Where(p => !string.IsNullOrEmpty(p.LABORATORIO)).Select(p => p.LABORATORIO).Distinct().ToList();
-            //var categorias = products.Where(p => !string.IsNullOrEmpty(p.CATEGORIA)).Select(p => p.CATEGORIA).Distinct().ToList();
-            //var drogas = products.Where(p => !string.IsNullOrEmpty(p.DROGA)).Select(p => p.DROGA).Distinct().ToList();
-            ////var acciones = products.Where(p => !string.IsNullOrEmpty(p.ACCION)).Select(p => p.ACCION).Distinct().ToList();
-            //var especies = products.Where(p => !string.IsNullOrEmpty(p.ESPECIE)).Select(p => p.ESPECIE).Distinct().ToList();
-            //var viaAdministraciones = products.Where(p => !string.IsNullOrEmpty(p.VIA_ADMINISTRACION)).Select(p => p.VIA_ADMINISTRACION).Distinct().ToList();
+            var subrubros = products.Where(p => !string.IsNullOrEmpty(p.SUBRUBRO)).Select(p => p.SUBRUBRO).Distinct().ToList();
+            var vademecums = products.Where(p => !string.IsNullOrEmpty(p.VADEMECUM)).Select(p => p.VADEMECUM).Distinct().ToList();
+            var tipos = products.Where(p => !string.IsNullOrEmpty(p.TIPO)).Select(p => p.TIPO).Distinct().ToList();
+            var laboratorios = products.Where(p => !string.IsNullOrEmpty(p.LABORATORIO)).Select(p => p.LABORATORIO).Distinct().ToList();
+            var categorias = products.Where(p => !string.IsNullOrEmpty(p.CATEGORIA)).Select(p => p.CATEGORIA).Distinct().ToList();
+            var drogas = products.Where(p => !string.IsNullOrEmpty(p.DROGA)).Select(p => p.DROGA).Distinct().ToList();
+            //var acciones = products.Where(p => !string.IsNullOrEmpty(p.ACCION)).Select(p => p.ACCION).Distinct().ToList();
+            var especies = products.Where(p => !string.IsNullOrEmpty(p.ESPECIE)).Select(p => p.ESPECIE).Distinct().ToList();
+            var viaAdministraciones = products.Where(p => !string.IsNullOrEmpty(p.VIA_ADMINISTRACION)).Select(p => p.VIA_ADMINISTRACION).Distinct().ToList();
 
             var marcaTuple = await GetItemsFilters(products, marcas, ProductFieldTypeEnum.Marca);
             var proveedorTuple = await GetItemsFilters(products, proveedores, ProductFieldTypeEnum.Proveedor);
-            //var subrubroTuple = await GetItemsFilters(products, subrubros, ProductFieldTypeEnum.Subrubro);
-            //var vademecumTuple = await GetItemsFilters(products, vademecums, ProductFieldTypeEnum.Vademecum);
-            //var tipoTuple = await GetItemsFilters(products, tipos, ProductFieldTypeEnum.Tipo);
-            //var laboratorioTuple = await GetItemsFilters(products, laboratorios, ProductFieldTypeEnum.Laboratorio);
-            //var categoriaTuple = await GetItemsFilters(products, categorias, ProductFieldTypeEnum.Categoria);
-            //var drogaTuple = await GetItemsFilters(products, drogas, ProductFieldTypeEnum.Droga);
-            ////var accionTuple = await GetItemsFilters(products, acciones, ProductFieldTypeEnum.Accion);
-            //var especieTuple = await GetItemsFilters(products, especies, ProductFieldTypeEnum.Especie);
-            //var viaAdministracionTuple = await GetItemsFilters(products, viaAdministraciones, ProductFieldTypeEnum.ViaAdministracion);
+            var subrubroTuple = await GetItemsFilters(products, subrubros, ProductFieldTypeEnum.Subrubro);
+            var vademecumTuple = await GetItemsFilters(products, vademecums, ProductFieldTypeEnum.Vademecum);
+            var tipoTuple = await GetItemsFilters(products, tipos, ProductFieldTypeEnum.Tipo);
+            var laboratorioTuple = await GetItemsFilters(products, laboratorios, ProductFieldTypeEnum.Laboratorio);
+            var categoriaTuple = await GetItemsFilters(products, categorias, ProductFieldTypeEnum.Categoria);
+            var drogaTuple = await GetItemsFilters(products, drogas, ProductFieldTypeEnum.Droga);
+            //var accionTuple = await GetItemsFilters(products, acciones, ProductFieldTypeEnum.Accion);
+            var especieTuple = await GetItemsFilters(products, especies, ProductFieldTypeEnum.Especie);
+            var viaAdministracionTuple = await GetItemsFilters(products, viaAdministraciones, ProductFieldTypeEnum.ViaAdministracion);
 
             return new ValuesToFilter()
             {
                 Marca = new CategoryFilter() { ItemsFilter = marcaTuple.Item1, CanFilter = marcaTuple.Item2 },
                 Proveedor = new CategoryFilter() { ItemsFilter = proveedorTuple.Item1, CanFilter = marcaTuple.Item2 },
-                //Subrubro = new CategoryFilter() { ItemsFilter = subrubroTuple.Item1, CanFilter = marcaTuple.Item2 },
-                //Vademecum = new CategoryFilter() { ItemsFilter = vademecumTuple.Item1, CanFilter = marcaTuple.Item2 },
-                //Tipo = new CategoryFilter() { ItemsFilter = tipoTuple.Item1, CanFilter = marcaTuple.Item2 },
-                //Laboratorio = new CategoryFilter() { ItemsFilter = laboratorioTuple.Item1, CanFilter = marcaTuple.Item2 },
-                //Categoria = new CategoryFilter() { ItemsFilter = categoriaTuple.Item1, CanFilter = marcaTuple.Item2 },
-                //Droga = new CategoryFilter() { ItemsFilter = drogaTuple.Item1, CanFilter = marcaTuple.Item2 },
-                ////Accion = new CategoryFilter() { ItemsFilter = accionTuple.Item1, CanFilter = marcaTuple.Item2 },
-                //Especie = new CategoryFilter() { ItemsFilter = especieTuple.Item1, CanFilter = marcaTuple.Item2 },
-                //Via_Administracion = new CategoryFilter() { ItemsFilter = viaAdministracionTuple.Item1, CanFilter = marcaTuple.Item2 }
+                Subrubro = new CategoryFilter() { ItemsFilter = subrubroTuple.Item1, CanFilter = marcaTuple.Item2 },
+                Vademecum = new CategoryFilter() { ItemsFilter = vademecumTuple.Item1, CanFilter = marcaTuple.Item2 },
+                Tipo = new CategoryFilter() { ItemsFilter = tipoTuple.Item1, CanFilter = marcaTuple.Item2 },
+                Laboratorio = new CategoryFilter() { ItemsFilter = laboratorioTuple.Item1, CanFilter = marcaTuple.Item2 },
+                Categoria = new CategoryFilter() { ItemsFilter = categoriaTuple.Item1, CanFilter = marcaTuple.Item2 },
+                Droga = new CategoryFilter() { ItemsFilter = drogaTuple.Item1, CanFilter = marcaTuple.Item2 },
+                //Accion = new CategoryFilter() { ItemsFilter = accionTuple.Item1, CanFilter = marcaTuple.Item2 },
+                Especie = new CategoryFilter() { ItemsFilter = especieTuple.Item1, CanFilter = marcaTuple.Item2 },
+                Via_Administracion = new CategoryFilter() { ItemsFilter = viaAdministracionTuple.Item1, CanFilter = marcaTuple.Item2 }
             };
         }
 
@@ -454,15 +455,15 @@ namespace Esperanza.Repository.DataAccess
                 {
                     case ProductFieldTypeEnum.Marca: filterProducts = products.Where(p => p.MARCA == value).ToList(); break;
                     case ProductFieldTypeEnum.Proveedor: filterProducts = products.Where(p => p.PROVEEDOR == value).ToList(); break;
-                    //case ProductFieldTypeEnum.Subrubro: filterProducts = products.Where(p => p.SUBRUBRO == value).ToList(); break;
-                    //case ProductFieldTypeEnum.Vademecum: filterProducts = products.Where(p => p.VADEMECUM == value).ToList(); break;
-                    //case ProductFieldTypeEnum.Tipo: filterProducts = products.Where(p => p.TIPO == value).ToList(); break;
-                    //case ProductFieldTypeEnum.Laboratorio: filterProducts = products.Where(p => p.LABORATORIO == value).ToList(); break;
-                    //case ProductFieldTypeEnum.Categoria: filterProducts = products.Where(p => p.CATEGORIA == value).ToList(); break;
-                    //case ProductFieldTypeEnum.Droga: filterProducts = products.Where(p => p.DROGA == value).ToList(); break;
-                    //case ProductFieldTypeEnum.Accion: filterProducts = products.Where(p => p.ACCION == value).ToList(); break;
-                    //case ProductFieldTypeEnum.Especie: filterProducts = products.Where(p => p.ESPECIE == value).ToList(); break;
-                    //case ProductFieldTypeEnum.ViaAdministracion: filterProducts = products.Where(p => p.VIA_ADMINISTRACION == value).ToList(); break;
+                    case ProductFieldTypeEnum.Subrubro: filterProducts = products.Where(p => p.SUBRUBRO == value).ToList(); break;
+                    case ProductFieldTypeEnum.Vademecum: filterProducts = products.Where(p => p.VADEMECUM == value).ToList(); break;
+                    case ProductFieldTypeEnum.Tipo: filterProducts = products.Where(p => p.TIPO == value).ToList(); break;
+                    case ProductFieldTypeEnum.Laboratorio: filterProducts = products.Where(p => p.LABORATORIO == value).ToList(); break;
+                    case ProductFieldTypeEnum.Categoria: filterProducts = products.Where(p => p.CATEGORIA == value).ToList(); break;
+                    case ProductFieldTypeEnum.Droga: filterProducts = products.Where(p => p.DROGA == value).ToList(); break;
+                    case ProductFieldTypeEnum.Accion: filterProducts = products.Where(p => p.ACCION == value).ToList(); break;
+                    case ProductFieldTypeEnum.Especie: filterProducts = products.Where(p => p.ESPECIE == value).ToList(); break;
+                    case ProductFieldTypeEnum.ViaAdministracion: filterProducts = products.Where(p => p.VIA_ADMINISTRACION == value).ToList(); break;
                 }
 
                 itemFilters.Add(new ItemFilter()

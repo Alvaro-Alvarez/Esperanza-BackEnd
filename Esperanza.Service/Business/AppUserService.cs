@@ -1,4 +1,5 @@
 ﻿using Esperanza.Core.Constants;
+using Esperanza.Core.Helpers;
 using Esperanza.Core.Interfaces.Business;
 using Esperanza.Core.Interfaces.DataAccess;
 using Esperanza.Core.Models;
@@ -43,8 +44,8 @@ namespace Esperanza.Service.Business
         {
             if (await UserRepository.Exist(user.Email, user.BasClientCode)) throw new Exception("Ya existe un usuario con el mismo email o código de cliente");
             Guid creatorGuid = string.IsNullOrEmpty(userGuid) ? Guid.NewGuid() : new Guid(userGuid);
-            //TODO: Encryptar contraseña
             EntityHelper.InitEntity(user, creatorGuid);
+            user.Pass = HashHelper.HashPassword(user.Guid.ToString(), user.Pass);
             user.RoleGuid = user.RoleGuid != null ? user.RoleGuid.Value : new Guid(RoleConstant.Client);
             if (user.RoleGuid.Value.ToString().ToLower() == RoleConstant.Client.ToLower())
             {

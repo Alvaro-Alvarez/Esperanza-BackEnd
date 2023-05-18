@@ -20,7 +20,7 @@ namespace Esperanza.Core.Models
             {
                 return @"SELECT * FROM CarouselSlide slide
                         INNER JOIN Image img on slide.IdImage = img.Guid
-                        WHERE slide.IdCarouselPage IN @IdCarouselPages";
+                        WHERE slide.IdCarouselPage IN @IdCarouselPages AND slide.Deleted = 0";
             }
         }
     }

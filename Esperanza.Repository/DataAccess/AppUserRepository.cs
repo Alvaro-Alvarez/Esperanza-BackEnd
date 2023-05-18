@@ -74,5 +74,14 @@ namespace Esperanza.Repository.DataAccess
             }
             return rows > 0;
         }
+
+        public async Task UpdateCodeVerification(string code, string email)
+        {
+            int rows;
+            using (IDbConnection db = ConnectionBuilder.GetConnection())
+            {
+                rows = (await db.QueryAsync<int>(AppUser.UpdateVerificationCode, new { Email = email, VerificationCode = code })).FirstOrDefault();
+            }
+        }
     }
 }

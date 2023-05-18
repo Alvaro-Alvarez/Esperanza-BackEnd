@@ -92,7 +92,7 @@ namespace Esperanza.Repository.DataAccess
                 {
                     promotionalVideo.Video = video;
                     promotionalVideo.Thumbnail = image;
-                    //promotionalVideo.Video.Base64Image = VideoService.GetBase64RangeVideo(Options.Videos, promotionalVideo.IdVideo.ToString());
+                    promotionalVideo.Video.Base64Image = VideoService.GetBase64RangeVideo(Options.Videos, promotionalVideo.IdVideo.ToString());
                     promotionalVideo.Thumbnail.Base64Image = ImageService.GetBase64RangeImage(Options.VideoThumbnail, promotionalVideo.IdThumbnail.ToString());
                     return promotionalVideo;
                 }, new { IdPromotionalVideo = id }, splitOn: "Guid,Guid")).FirstOrDefault();

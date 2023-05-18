@@ -1,4 +1,6 @@
-﻿using Esperanza.Core.Interfaces.DataAccess;
+﻿using Esperanza.Core.Enums;
+using Esperanza.Core.Exceptions;
+using Esperanza.Core.Interfaces.DataAccess;
 using Esperanza.Core.Logs;
 using Esperanza.Core.Options;
 using Microsoft.AspNetCore.Http;
@@ -44,27 +46,48 @@ namespace Esperanza.Api.Middleware
         private Task HandleExceptionAsync(HttpContext context, Exception exception, IWebHostEnvironment env)
         {
             HttpStatusCode status;
-            string message;
+            string message = string.Empty;
+            string result = string.Empty;
+            bool controlledError = false;
             string errId = string.Empty;
             var stackTrace = String.Empty;
 
             var exceptionType = exception.GetType();
             status = HttpStatusCode.InternalServerError;
-            stackTrace = exception.StackTrace;
 
-            message = exception.Message;
-            var result = JsonSerializer.Serialize(new { error = message, stackTrace });
-            try
+            if (exceptionType == typeof(BusinessException))
             {
-                errId = ErrorsRepository.InsertError(new Core.Models.Errors(message, stackTrace)).Result;
+                controlledError = true;
+                var errorCode = exception.GetType().GetProperty("ErrorCode").GetValue(exception, null);
+                status = HttpStatusCode.BadRequest;
+                switch (errorCode)
+                {
+                    case ErrorCode.InvalidPassword: message = "Contraseña incorrecta";
+                        break;
+                    case ErrorCode.InvalidReCaptcha: message = "Recaptcha inválido";
+                        break;
+                    case ErrorCode.UserNotFound: message = "Usuario inexistente";
+                        break;
+                    case ErrorCode.InvalidCodeRecovery: message = "Código de verificación incorrecto";
+                        break;
+                }
             }
-            catch (Exception ex) { }
+            if (!controlledError)
+            {
+                message = exception.Message;
+                result = JsonSerializer.Serialize(new { error = message, exception.StackTrace });
+                try
+                {
+                    errId = ErrorsRepository.InsertError(new Core.Models.Errors(message, exception.StackTrace)).Result;
+                }
+                catch (Exception ex) { }
+            }
 
             Log.Error(LogsSettings.Path, result);
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)status;
-            //return context.Response.WriteAsync(result);
-            return context.Response.WriteAsync(string.IsNullOrEmpty(errId) ? "Ocurrió un error inesperado." : $"Ocurrió un error inesperado. El código del error es '{errId}'");
+            var msg = controlledError ? message : (string.IsNullOrEmpty(errId) ? "Ocurrió un error inesperado." : $"Ocurrió un error inesperado. El código del error es '{errId}'");
+            return context.Response.WriteAsync(msg);
         }
     }
 }

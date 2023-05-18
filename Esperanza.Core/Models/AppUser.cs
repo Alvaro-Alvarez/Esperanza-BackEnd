@@ -9,9 +9,11 @@ namespace Esperanza.Core.Models
         public string? Email { get; set; }
         public string? Pass { get; set; }
         public string? BasClientCode { get; set; }
+        public string? VerificationCode { get; set; }
         public bool? Verified { get; set; }
         public bool? CanCCM { get; set; }
         public bool? CanCCB { get; set; }
+        public bool? Enabled { get; set; }
 
         [Description("ignore")]
         public Person? Person { get; set; }
@@ -63,6 +65,15 @@ namespace Esperanza.Core.Models
             get
             {
                 return @"SELECT COUNT(*) FROM AppUser WHERE Deleted = 0 AND (Email = @Email OR BasClientCode = @BasClientCode);";
+            }
+        }
+
+        [Description("ignore")]
+        public static string UpdateVerificationCode
+        {
+            get
+            {
+                return @"UPDATE AppUser SET VerificationCode = @VerificationCode WHERE Email = @Email;";
             }
         }
     }

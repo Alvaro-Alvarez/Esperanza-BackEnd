@@ -25,7 +25,7 @@ namespace Esperanza.Core.Models
             {
                 return @"SELECT pg.* FROM CarouselPage pg
                         INNER JOIN PageType pt ON pt.Guid = pg.IdPageType
-                        WHERE pt.Name = @PageType;";
+                        WHERE pt.Name = @PageType AND pg.Deleted = 0;";
             }
         }
 

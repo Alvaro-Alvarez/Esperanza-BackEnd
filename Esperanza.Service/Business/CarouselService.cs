@@ -87,9 +87,22 @@ namespace Esperanza.Service.Business
                 }
                 else
                 {
-                    ImageService.UpdatePhysicalImage(slide.Image, Options.Carousel);
-                    await ImageRepository.UpdateAsync(slide.Image);
-                    await CarouselSlideRepository.UpdateAsync(slide);
+                    if (slide.Guid == null)
+                    {
+                        EntityHelper.InitEntity(slide, new Guid(userId));
+                        EntityHelper.InitEntity(slide.Image, new Guid(userId));
+                        slide.IdImage = slide.Image.Guid;
+                        slide.IdCarouselPage = page.Guid;
+                        ImageService.SavePhysicalImage(slide.Image, Options.Carousel);
+                        await ImageRepository.InsertAsync(slide.Image);
+                        await CarouselSlideRepository.InsertAsync(slide);
+                    }
+                    else
+                    {
+                        ImageService.UpdatePhysicalImage(slide.Image, Options.Carousel);
+                        await ImageRepository.UpdateAsync(slide.Image);
+                        await CarouselSlideRepository.UpdateAsync(slide);
+                    }
                 }
             }
             return await GetById(page.Guid.ToString());
