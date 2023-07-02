@@ -48,6 +48,7 @@ namespace Esperanza.Api.Config
             services.AddSingleton<ICustomerConditionSyncRepository, CustomerConditionSyncRepository>();
             services.AddSingleton<IGenericRepository<CustomerSync>, CustomerSyncRepository>();
             services.AddSingleton<IGenericRepository<PropductSync>, PropductSyncRepository>();
+            services.AddSingleton<IGenericRepository<ConditionType>, ConditionTypeRepository>();
             services.AddSingleton<IProductRepository, ProductRepository>();
             services.AddSingleton<ILaboratoryRepository, LaboratoryRepository>();
             services.AddSingleton<IPromotionalVideoRepository, PromotionalVideoRepository>();
@@ -57,6 +58,7 @@ namespace Esperanza.Api.Config
             services.AddSingleton<IVideoRepository, VideoRepository>();
             services.AddSingleton<IImageRepository, ImageRepository>();
             services.AddSingleton<IErrorsRepository, ErrorsRepository>();
+            services.AddSingleton<IConditionTypeRepository, ConditionTypeRepository>();
 
             #endregion
 

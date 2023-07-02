@@ -21,6 +21,7 @@
         public static readonly string CarouselSlide = "CarouselSlide";
         public static readonly string PromotionalVideo = "PromotionalVideo";
         public static readonly string Laboratory = "Laboratory";
+        public static readonly string ConditionType = "ConditionType";
         // Intermediate Tables
         public static readonly string EmailType = "EmailType";
         public static readonly string Errors = "Errors";

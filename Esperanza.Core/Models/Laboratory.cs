@@ -6,6 +6,7 @@ namespace Esperanza.Core.Models
     {
         public string? LaboratoryTitle { get; set; }
         public string? LaboratoryDescription { get; set; }
+        public int? LaboratoryOrder { get; set; }
         public Guid? IdImage { get; set; }
 
         [Description("ignore")]

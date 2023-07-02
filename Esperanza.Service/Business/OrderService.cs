@@ -40,45 +40,65 @@ namespace Esperanza.Service.Business
 
         public async Task FinishOrder(OrderItems orderItems, string userId)
         {
-            //string asd = "asdasdads".Substring(1,214);
             var user = await UserRepository.GetUserAsync(new Guid(userId));
             Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(user), prefix: "Usuario --> ");
-            if (orderItems.OrderCcb != null)
+            foreach (var order in orderItems.Orders)
             {
-                var customerCondition = await CustomerConditionSyncRepository.GetByClientAndCondition(user.BasClientCode, "CCB");
-                orderItems.OrderCcb.PedidoVenta.ListaPrecios = customerCondition.CODLIS;
-                string payloadCcb = JsonConvert.SerializeObject(orderItems.OrderCcb);
-                Log.Information(LogsSettings.Path, payloadCcb, prefix: "FinishOrder - Payload CCB");
+                var customerCondition = await CustomerConditionSyncRepository.GetByClientAndCondition(user.BasClientCode, order.PedidoVenta.CondicionVentaCompra);
+                order.PedidoVenta.ListaPrecios = customerCondition.CODLIS;
+                string payload = JsonConvert.SerializeObject(order);
+                Log.Information(LogsSettings.Path, payload, prefix: $"FinishOrder - Payload {order.PedidoVenta.CondicionVentaCompra}");
                 var httpClient = new HttpClient();
-                var content = new StringContent(payloadCcb, Encoding.UTF8, "application/json");
+                var content = new StringContent(payload, Encoding.UTF8, "application/json");
                 var res = await httpClient.PostAsync($"{OrderOptions.ApiUrl}{OrderOptions.OrderController}", content);
-                Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(res), prefix: "Obtiene respuesta CCB -->");
+                Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(res), prefix: $"Obtiene respuesta {order.PedidoVenta.CondicionVentaCompra} -->");
                 if (!res.IsSuccessStatusCode)
-                    throw new Exception($"Error al realizar el pedido ccb. Cliente {orderItems.OrderCcb.PedidoVenta.Cliente}. Información del error: {JsonConvert.SerializeObject(res)}");
+                    throw new Exception($"Error al realizar el pedido {order.PedidoVenta.CondicionVentaCompra}. Cliente {order.PedidoVenta.Cliente}. Información del error: {JsonConvert.SerializeObject(res)}");
                 var resContent = await res.Content.ReadAsStringAsync();
                 if (resContent.Contains("Error"))
-                    throw new Exception($"Error al realizar el pedido ccb. Cliente {orderItems.OrderCcb.PedidoVenta.Cliente}. Información del error: {JsonConvert.SerializeObject(resContent)} | {JsonConvert.SerializeObject(res)}");
-                Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(resContent), prefix: "Obtiene contenido respuesta CCB -->");
-
-            }
-            if (orderItems.OrderCcm != null)
-            {
-                var customerCondition = await CustomerConditionSyncRepository.GetByClientAndCondition(user.BasClientCode, "CCM");
-                orderItems.OrderCcm.PedidoVenta.ListaPrecios = customerCondition.CODLIS;
-                string payloadCcm = JsonConvert.SerializeObject(orderItems.OrderCcm);
-                Log.Information(LogsSettings.Path, payloadCcm, prefix: "FinishOrder - Payload CCM");
-                var httpClient = new HttpClient();
-                var content = new StringContent(payloadCcm, Encoding.UTF8, "application/json");
-                var res = await httpClient.PostAsync($"{OrderOptions.ApiUrl}{OrderOptions.OrderController}", content);
-                Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(res), prefix: "Obtiene respuesta CCM -->");
-                if (!res.IsSuccessStatusCode)
-                    throw new Exception($"Error al realizar el pedido ccm. Cliente {orderItems.OrderCcm.PedidoVenta.Cliente}. Información del error: {JsonConvert.SerializeObject(res)}");
-                var resContent = await res.Content.ReadAsStringAsync();
-                if (resContent.Contains("Error"))
-                    throw new Exception($"Error al realizar el pedido ccm. Cliente {orderItems.OrderCcm.PedidoVenta.Cliente}. Información del error: {JsonConvert.SerializeObject(resContent)} | {JsonConvert.SerializeObject(res)}");
-                Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(resContent), prefix: "Obtiene contenido respuesta CCM -->");
+                    throw new Exception($"Error al realizar el pedido {order.PedidoVenta.CondicionVentaCompra}. Cliente {order.PedidoVenta.Cliente}. Información del error: {JsonConvert.SerializeObject(resContent)} | {JsonConvert.SerializeObject(res)}");
+                Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(resContent), prefix: $"Obtiene contenido respuesta {order.PedidoVenta.CondicionVentaCompra} -->");
             }
             await _emailService.SendMail(EmailTypeConstant.OrderPlaced, new Dictionary<string, string>(), new List<string>() { user.Email, EmailSettings.ContactEmail });
+
+            //var user = await UserRepository.GetUserAsync(new Guid(userId));
+            //Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(user), prefix: "Usuario --> ");
+            //if (orderItems.OrderCcb != null)
+            //{
+            //    var customerCondition = await CustomerConditionSyncRepository.GetByClientAndCondition(user.BasClientCode, "CCB");
+            //    orderItems.OrderCcb.PedidoVenta.ListaPrecios = customerCondition.CODLIS;
+            //    string payloadCcb = JsonConvert.SerializeObject(orderItems.OrderCcb);
+            //    Log.Information(LogsSettings.Path, payloadCcb, prefix: "FinishOrder - Payload CCB");
+            //    var httpClient = new HttpClient();
+            //    var content = new StringContent(payloadCcb, Encoding.UTF8, "application/json");
+            //    var res = await httpClient.PostAsync($"{OrderOptions.ApiUrl}{OrderOptions.OrderController}", content);
+            //    Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(res), prefix: "Obtiene respuesta CCB -->");
+            //    if (!res.IsSuccessStatusCode)
+            //        throw new Exception($"Error al realizar el pedido ccb. Cliente {orderItems.OrderCcb.PedidoVenta.Cliente}. Información del error: {JsonConvert.SerializeObject(res)}");
+            //    var resContent = await res.Content.ReadAsStringAsync();
+            //    if (resContent.Contains("Error"))
+            //        throw new Exception($"Error al realizar el pedido ccb. Cliente {orderItems.OrderCcb.PedidoVenta.Cliente}. Información del error: {JsonConvert.SerializeObject(resContent)} | {JsonConvert.SerializeObject(res)}");
+            //    Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(resContent), prefix: "Obtiene contenido respuesta CCB -->");
+
+            //}
+            //if (orderItems.OrderCcm != null)
+            //{
+            //    var customerCondition = await CustomerConditionSyncRepository.GetByClientAndCondition(user.BasClientCode, "CCM");
+            //    orderItems.OrderCcm.PedidoVenta.ListaPrecios = customerCondition.CODLIS;
+            //    string payloadCcm = JsonConvert.SerializeObject(orderItems.OrderCcm);
+            //    Log.Information(LogsSettings.Path, payloadCcm, prefix: "FinishOrder - Payload CCM");
+            //    var httpClient = new HttpClient();
+            //    var content = new StringContent(payloadCcm, Encoding.UTF8, "application/json");
+            //    var res = await httpClient.PostAsync($"{OrderOptions.ApiUrl}{OrderOptions.OrderController}", content);
+            //    Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(res), prefix: "Obtiene respuesta CCM -->");
+            //    if (!res.IsSuccessStatusCode)
+            //        throw new Exception($"Error al realizar el pedido ccm. Cliente {orderItems.OrderCcm.PedidoVenta.Cliente}. Información del error: {JsonConvert.SerializeObject(res)}");
+            //    var resContent = await res.Content.ReadAsStringAsync();
+            //    if (resContent.Contains("Error"))
+            //        throw new Exception($"Error al realizar el pedido ccm. Cliente {orderItems.OrderCcm.PedidoVenta.Cliente}. Información del error: {JsonConvert.SerializeObject(resContent)} | {JsonConvert.SerializeObject(res)}");
+            //    Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(resContent), prefix: "Obtiene contenido respuesta CCM -->");
+            //}
+            //await _emailService.SendMail(EmailTypeConstant.OrderPlaced, new Dictionary<string, string>(), new List<string>() { user.Email, EmailSettings.ContactEmail });
         }
     }
 }

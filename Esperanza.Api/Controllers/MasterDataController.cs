@@ -44,6 +44,13 @@ namespace Esperanza.Api.Controllers
         }
 
         [HttpGet]
+        [Route("GetConditionTypes")]
+        public async Task<ActionResult> GetConditionTypes()
+        {
+            return Ok(await MasterDataService.GetConditionTypes());
+        }
+
+        [HttpGet]
         [Route("TestApi")]
         public async Task<ActionResult> TestApi()
         {

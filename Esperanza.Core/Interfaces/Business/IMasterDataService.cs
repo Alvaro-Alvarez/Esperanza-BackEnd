@@ -8,5 +8,6 @@ namespace Esperanza.Core.Interfaces.Business
         Task<List<Sex>> GetAllSexsAsync();
         Task<List<UserRole>> GetAllUserRolesAsync();
         Task<List<PageType>> GetPagesTypes();
+        Task<List<ConditionType>> GetConditionTypes();
     }
 }

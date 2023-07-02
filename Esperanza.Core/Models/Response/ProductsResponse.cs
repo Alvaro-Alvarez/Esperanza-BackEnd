@@ -124,6 +124,7 @@ namespace Esperanza.Core.Models.Response
         public string FOTO { get; set; }
         public string PRECIO { get; set; }
         public string PRECIO_ESP { get; set; }
+        public string PRECIO_BASE { get; set; }
         public bool LOGGED { get; set; }
         public string CONDICION { get; set; }
         public int ROW_COUNT { get; set; }

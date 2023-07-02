@@ -100,6 +100,7 @@ namespace Esperanza.Service.Business
             var rows = products.Count();
             var init = filter.Start.HasValue ? filter.Start.Value : 0;
             var count = (products.Count() - 10) >= 10 ? 10 : products.Count();
+            if ((init + count) > rows) count = rows - init;
             //var init = filter.Start.HasValue ? filter.Start.Value : 0;
             //var finish = (products.Count()-10) >= 10 ? 10 : products.Count();
             var paginationProducts = products.GetRange(init, count);

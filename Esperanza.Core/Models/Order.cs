@@ -2,8 +2,9 @@
 {
     public class OrderItems
     {
-        public Order? OrderCcm { get; set; }
-        public Order? OrderCcb { get; set; }
+        //public Order? OrderCcm { get; set; }
+        //public Order? OrderCcb { get; set; }
+        public List<Order>? Orders { get; set; }
     }
 
     public class Order

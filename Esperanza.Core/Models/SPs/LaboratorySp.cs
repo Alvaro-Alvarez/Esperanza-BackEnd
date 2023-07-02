@@ -7,6 +7,7 @@
         public Guid? IdImage { get; set; }
         public Guid? Guid { get; set; }
         public string? Base64Image { get; set; }
+        public int? Order{ get; set; }
         public string? Rows { get; set; }
     }
 }

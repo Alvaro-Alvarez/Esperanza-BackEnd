@@ -74,7 +74,17 @@ namespace Esperanza.Service.Business
 
         public async Task UpdateCtaCte()
         {
-            var items = await GetData<List<CtaCte>>(_servicesOption.CtaCteController);
+            var endOfItems = false;
+            var start = _serviceUpdateOptions.StartPagination;
+            var items = new List<CtaCte>();
+            while (!endOfItems)
+            {
+                var setItems = await GetData<List<CtaCte>>($"{_servicesOption.CtaCteController}&PAGINA={_serviceUpdateOptions.CustomerRange}&DESDE={start}");
+                endOfItems = setItems == null || setItems.Count() == 0;
+                if (!endOfItems) items.AddRange(setItems);
+                start += _serviceUpdateOptions.CustomerRange;
+            }
+            //var items = await GetData<List<CtaCte>>(_servicesOption.CtaCteController);
             var insertedCodes = (await _customerSyncRepository.GetCustomerCodes()).ToList();
             var recordToInsert = GetRecordToInsert(items, insertedCodes, SyncCodeConstant.Customer);
             var recordToRemove = insertedCodes.Except(items.Select(i => i.CODCTACTE)).ToList();
@@ -145,7 +155,17 @@ namespace Esperanza.Service.Business
 
         public async Task UpdateLists()
         {
-            var items = await GetData<List<Lists>>(_servicesOption.ListDinController);
+            var endOfItems = false;
+            var start = _serviceUpdateOptions.StartPagination;
+            var items = new List<Lists>();
+            while (!endOfItems)
+            {
+                var setItems = await GetData<List<Lists>>($"{_servicesOption.ListDinController}&PAGINA={_serviceUpdateOptions.PriceListRange}&DESDE={start}");
+                endOfItems = setItems == null || setItems.Count() == 0;
+                if (!endOfItems) items.AddRange(setItems);
+                start += _serviceUpdateOptions.PriceListRange;
+            }
+            //var items = await GetData<List<Lists>>(_servicesOption.ListDinController);
             var insertedCodes = (await _priceListSyncRepository.GetPriceListCodes()).ToList();
             var recordToInsert = GetRecordToInsert(items, insertedCodes, SyncCodeConstant.Price);
             var recordToRemove = insertedCodes.Except(items.Select(i => i.CODITM)).ToList();
@@ -156,8 +176,9 @@ namespace Esperanza.Service.Business
                 item.CreatedAt = DateTime.Now;
                 item.CreatedBy = Guid.Empty;
             });
+            await _propductSyncRepository.DeleteAll(PriceListSync.DeleteAll);
             await _priceListSyncRepository.SaveRangeAsync(itemsToSave);
-            await _priceListSyncRepository.DeleteRowsRange(recordToRemove, SyncCodeConstant.Price);
+            //await _priceListSyncRepository.DeleteRowsRange(recordToRemove, SyncCodeConstant.Price);
         }
 
         public async Task RestartServices(string password)
@@ -172,6 +193,18 @@ namespace Esperanza.Service.Business
             await UpdateConditions();
             await UpdateLists();
         }
+
+        //public async Task RestartServices()
+        //{
+        //    await _propductSyncRepository.DeleteAll(PropductSync.DeleteAll);
+        //    await _propductSyncRepository.DeleteAll(CustomerSync.DeleteAll);
+        //    await _propductSyncRepository.DeleteAll(CustomerConditionSync.DeleteAll);
+        //    await _propductSyncRepository.DeleteAll(PriceListSync.DeleteAll);
+        //    await UpdateProducts();
+        //    await UpdateCtaCte();
+        //    await UpdateConditions();
+        //    await UpdateLists();
+        //}
 
         #region Private Methods
         private List<Item> GetProductsToUpdate(List<Item> items, List<string> insertedCodes)

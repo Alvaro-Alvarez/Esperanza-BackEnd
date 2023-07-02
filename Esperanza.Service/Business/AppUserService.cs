@@ -47,6 +47,7 @@ namespace Esperanza.Service.Business
             EntityHelper.InitEntity(user, creatorGuid);
             user.Pass = HashHelper.HashPassword(user.Guid.ToString(), user.Pass);
             user.RoleGuid = user.RoleGuid != null ? user.RoleGuid.Value : new Guid(RoleConstant.Client);
+            user.Enabled = true;
             if (user.RoleGuid.Value.ToString().ToLower() == RoleConstant.Client.ToLower())
             {
                 var userBas = await BasApiService.GetClientBas(user.BasClientCode);

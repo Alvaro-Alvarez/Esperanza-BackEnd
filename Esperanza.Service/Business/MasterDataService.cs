@@ -10,18 +10,21 @@ namespace Esperanza.Service.Business
         private readonly IGenericRepository<Sex> SexRepository;
         private readonly IGenericRepository<UserRole> UserRoleRepository;
         private readonly IGenericRepository<PageType> PageTypeRepository;
+        private readonly IGenericRepository<ConditionType> ConditionTypeRepository;
 
         public MasterDataService(
             IGenericRepository<DocumentType> documentTypeRepository,
             IGenericRepository<Sex> sexRepository,
             IGenericRepository<UserRole> userRoleRepository,
-            IGenericRepository<PageType> pageTypeRepository
+            IGenericRepository<PageType> pageTypeRepository,
+            IGenericRepository<ConditionType> conditionTypeRepository
             )
         {
             DocumentTypeRepository = documentTypeRepository;
             SexRepository = sexRepository;
             UserRoleRepository = userRoleRepository;
             PageTypeRepository = pageTypeRepository;
+            ConditionTypeRepository = conditionTypeRepository;
         }
 
         public async Task<List<DocumentType>> GetAllTypesOfDocumentsAsync()
@@ -42,6 +45,11 @@ namespace Esperanza.Service.Business
         public async Task<List<PageType>> GetPagesTypes()
         {
             return (await PageTypeRepository.GetAllAsync()).ToList();
+        }
+
+        public async Task<List<ConditionType>> GetConditionTypes()
+        {
+            return (await ConditionTypeRepository.GetAllAsync()).ToList();
         }
     }
 }
