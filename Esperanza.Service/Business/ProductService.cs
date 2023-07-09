@@ -59,7 +59,7 @@ namespace Esperanza.Service.Business
             request.ProductCodes = request.ProductCodes.Distinct().ToList();
             var user = string.IsNullOrEmpty(userGuid) ? null : await UserRepository.GetAsync(userGuid);
             var products = await ProductRepository.GetAllRecommended(request, user != null ? user.BasClientCode : "001");
-            var cleanProducts = await ProductRepository.GetProductsWithUpdatePrices(products, false);
+            var cleanProducts = await ProductRepository.GetProductsWithUpdatePrices(products, string.IsNullOrEmpty(userGuid));
             await FillSemaphore(cleanProducts);
             var rows = products.Count();
             return new ProductsResponse()
@@ -74,7 +74,7 @@ namespace Esperanza.Service.Business
         {
             var user = string.IsNullOrEmpty(userGuid) ? null : await UserRepository.GetAsync(userGuid);
             var products = await ProductRepository.GetByVademecumFilter(filter, user != null ? user.BasClientCode : "001");
-            var cleanProducts = await ProductRepository.GetProductsWithUpdatePrices(products, false);
+            var cleanProducts = await ProductRepository.GetProductsWithUpdatePrices(products, string.IsNullOrEmpty(userGuid));
             await FillSemaphore(cleanProducts);
             var rows = products.FirstOrDefault()?.ROW_COUNT;
             return new ProductsResponse()

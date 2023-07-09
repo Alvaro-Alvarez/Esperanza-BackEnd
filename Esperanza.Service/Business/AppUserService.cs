@@ -51,7 +51,7 @@ namespace Esperanza.Service.Business
             if (user.RoleGuid.Value.ToString().ToLower() == RoleConstant.Client.ToLower())
             {
                 var userBas = await BasApiService.GetClientBas(user.BasClientCode);
-                if (userBas == null) throw new Exception("El código de cliente no existe");
+                if (userBas == null || string.IsNullOrEmpty(userBas.Codigo)) throw new Exception("El código de cliente no existe");
                 user.CanCCB = userBas.CondicionVentaBalanceado.Equals("CCB");
                 user.CanCCM = userBas.CondicionVentaMedicamentos.Equals("CCM");
             }
