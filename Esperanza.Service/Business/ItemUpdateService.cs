@@ -166,9 +166,9 @@ namespace Esperanza.Service.Business
                 start += _serviceUpdateOptions.PriceListRange;
             }
             //var items = await GetData<List<Lists>>(_servicesOption.ListDinController);
-            var insertedCodes = (await _priceListSyncRepository.GetPriceListCodes()).ToList();
-            var recordToInsert = GetRecordToInsert(items, insertedCodes, SyncCodeConstant.Price);
-            var recordToRemove = insertedCodes.Except(items.Select(i => i.CODITM)).ToList();
+            //var insertedCodes = (await _priceListSyncRepository.GetPriceListCodes()).ToList();
+            var recordToInsert = GetRecordToInsert(items, new List<string>(), SyncCodeConstant.Price);
+            //var recordToRemove = insertedCodes.Except(items.Select(i => i.CODITM)).ToList();
             var itemsToSave = _mapper.Map<List<PriceListSync>>(recordToInsert);
             itemsToSave.ForEach(item =>
             {

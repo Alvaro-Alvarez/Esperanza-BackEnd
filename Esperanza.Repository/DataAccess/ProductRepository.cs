@@ -48,8 +48,8 @@ namespace Esperanza.Repository.DataAccess
                     ClientCode = clitenCode
                 }, commandType: CommandType.StoredProcedure).ToList();
             }
-            //return await GetProductsWithUpdatePrices(products, noLogged: clitenCode == "001" || clitenCode == null);
-            return await GetProductsWithUpdatePrices(products, noLogged: false);
+            return await GetProductsWithUpdatePrices(products, noLogged: clitenCode == "001" || clitenCode == null);
+            //return await GetProductsWithUpdatePrices(products, noLogged: false);
         }
 
         public async Task<List<ProductsSyncResponseDTO>> GetAllPaginatedNew(Filter filter, bool logged, string clientCode)

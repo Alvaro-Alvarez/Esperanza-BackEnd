@@ -44,7 +44,7 @@ namespace Esperanza.Service.Business
             SmtpClient client = new SmtpClient(EmailSettings.Host, EmailSettings.Port.Value);
             client.Credentials = new NetworkCredential(EmailSettings.From, EmailSettings.Password);
             client.EnableSsl = true;
-            Log.Information(LogsSettings.Path, JsonConvert.SerializeObject(mail), prefix: "Antes de enviar mail --> ");
+            Log.Information($"Antes de enviar mail --> {JsonConvert.SerializeObject(mail)}");
             client.Send(mail);
             return true;
 

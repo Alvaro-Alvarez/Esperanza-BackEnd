@@ -1,4 +1,5 @@
 ﻿using Esperanza.Core.Constants;
+using Esperanza.Core.Exceptions;
 using Esperanza.Core.Helpers;
 using Esperanza.Core.Interfaces.Business;
 using Esperanza.Core.Interfaces.DataAccess;
@@ -42,7 +43,7 @@ namespace Esperanza.Service.Business
 
         public async Task InsertAsync(AppUser user, string userGuid)
         {
-            if (await UserRepository.Exist(user.Email, user.BasClientCode)) throw new Exception("Ya existe un usuario con el mismo email o código de cliente");
+            if (await UserRepository.Exist(user.Email, user.BasClientCode)) throw new BusinessException(Core.Enums.ErrorCode.ClientCodeFound);
             Guid creatorGuid = string.IsNullOrEmpty(userGuid) ? Guid.NewGuid() : new Guid(userGuid);
             EntityHelper.InitEntity(user, creatorGuid);
             user.Pass = HashHelper.HashPassword(user.Guid.ToString(), user.Pass);
@@ -51,7 +52,8 @@ namespace Esperanza.Service.Business
             if (user.RoleGuid.Value.ToString().ToLower() == RoleConstant.Client.ToLower())
             {
                 var userBas = await BasApiService.GetClientBas(user.BasClientCode);
-                if (userBas == null || string.IsNullOrEmpty(userBas.Codigo)) throw new Exception("El código de cliente no existe");
+                if (userBas == null || string.IsNullOrEmpty(userBas.Codigo)) throw new BusinessException(Core.Enums.ErrorCode.ClientCodeNotFound);
+                if (!userBas.NumeroIdentificacionImpositiva.Equals(user.Person.Cuit)) throw new BusinessException(Core.Enums.ErrorCode.InvalidCuit);
                 user.CanCCB = userBas.CondicionVentaBalanceado.Equals("CCB");
                 user.CanCCM = userBas.CondicionVentaMedicamentos.Equals("CCM");
             }

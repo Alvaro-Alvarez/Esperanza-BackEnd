@@ -70,6 +70,12 @@ namespace Esperanza.Api.Middleware
                         break;
                     case ErrorCode.InvalidCodeRecovery: message = "Código de verificación incorrecto";
                         break;
+                    case ErrorCode.ClientCodeFound: message = "El código de cliente ya está en uso";
+                        break;
+                    case ErrorCode.ClientCodeNotFound: message = "Código de cuit o numero de cliente incorrecto";
+                        break;
+                    case ErrorCode.InvalidCuit: message = "Código de cuit o numero de cliente incorrecto";
+                        break;
                 }
             }
             if (!controlledError)
@@ -83,7 +89,7 @@ namespace Esperanza.Api.Middleware
                 catch (Exception ex) { }
             }
 
-            Log.Error(LogsSettings.Path, result);
+            Log.Error(result);
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)status;
             var msg = controlledError ? message : (string.IsNullOrEmpty(errId) ? "Ocurrió un error inesperado." : $"Ocurrió un error inesperado. El código del error es '{errId}'");

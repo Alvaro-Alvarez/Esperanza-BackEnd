@@ -12,6 +12,7 @@ namespace Esperanza.Core.Models
         public DateTime? DateOfBirth { get; set; }
         public int? Age { get; set; }
         public string? DocumentNumber { get; set; }
+        public string? Cuit { get; set; }
 
         [Description("ignore")]
         public DocumentType? DocumentType { get; set; }

@@ -13,6 +13,12 @@ namespace Esperanza.Core.Enums
         [Description("UserFound")]
         UserFound = 4,
         [Description("InvalidCodeRecovery")]
-        InvalidCodeRecovery = 5
+        InvalidCodeRecovery = 5,
+        [Description("ClientCodeNotFound")]
+        ClientCodeNotFound = 6,
+        [Description("ClientCodeFound")]
+        ClientCodeFound = 7,
+        [Description("InvalidCuit")]
+        InvalidCuit = 8
     }
 }
