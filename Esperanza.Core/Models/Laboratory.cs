@@ -30,7 +30,7 @@ namespace Esperanza.Core.Models
             {
                 return @"SELECT TOP 5 * FROM Laboratory l
                         INNER JOIN Image img on l.IdImage = img.Guid
-                        WHERE l.Deleted = 0;";
+                        WHERE l.Deleted = 0 ORDER BY l.LaboratoryOrder;";
             }
         }
 

@@ -50,7 +50,6 @@ namespace Esperanza.Api.Middleware
             string result = string.Empty;
             bool controlledError = false;
             string errId = string.Empty;
-            var stackTrace = String.Empty;
 
             var exceptionType = exception.GetType();
             status = HttpStatusCode.InternalServerError;
